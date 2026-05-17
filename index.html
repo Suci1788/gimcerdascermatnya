@@ -1,0 +1,2080 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cerdas Cermat Nusantara - Kuis Kompetensi & Pengetahuan Guru</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Fredoka:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: linear-gradient(rgba(15, 23, 42, 0.88), rgba(30, 27, 75, 0.93)), url('https://i.imgur.com/MGm5wg0.png');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+        }
+        .font-title {
+            font-family: 'Fredoka', sans-serif;
+        }
+        .glass {
+            background: rgba(15, 23, 42, 0.65);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .glass-highlight {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-6px); }
+            75% { transform: translateX(6px); }
+        }
+        .animate-shake {
+            animation: shake 0.2s ease-in-out 2;
+        }
+        @keyframes pop {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        .animate-pop {
+            animation: pop 0.3s ease-in-out;
+        }
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(30, 41, 59, 0.5);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(99, 102, 241, 0.5);
+            border-radius: 3px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(99, 102, 241, 0.8);
+        }
+    </style>
+</head>
+<body class="text-slate-100 min-h-screen flex flex-col justify-between overflow-x-hidden relative selection:bg-indigo-500 selection:text-white">
+
+    <!-- Canvas Efek Partikel / Konfeti -->
+    <canvas id="confetti-canvas" class="absolute inset-0 pointer-events-none z-50"></canvas>
+
+    <!-- Header -->
+    <header class="w-full py-4 px-6 border-b border-slate-800/60 glass sticky top-0 z-40 transition-all">
+        <div class="max-w-6xl mx-auto flex items-center justify-between">
+            <div class="flex items-center gap-3 cursor-pointer" onclick="goToScreen('welcome-screen')">
+                <div class="p-2 bg-gradient-to-tr from-indigo-500 to-purple-500 rounded-xl shadow-lg shadow-indigo-500/30">
+                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+                </div>
+                <div>
+                    <h1 class="text-lg md:text-xl font-bold font-title bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 to-purple-400">CERDAS CERMAT</h1>
+                    <p class="text-[10px] md:text-xs text-slate-400 tracking-wider font-semibold">EDISI KOMPETENSI GURU</p>
+                </div>
+            </div>
+            
+            <div class="flex items-center gap-3">
+                <!-- Sound Toggle -->
+                <button onclick="toggleSound()" id="sound-btn" class="p-2.5 rounded-lg bg-slate-800/80 border border-slate-700 hover:bg-slate-700 transition duration-200 text-slate-300 hover:text-white" title="Aktifkan/Matikan Suara">
+                    <svg id="sound-icon-on" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                    <svg id="sound-icon-off" class="w-5 h-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 5.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15zM17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2"></path></svg>
+                </button>
+                
+                <!-- Stat Ringkas -->
+                <div class="hidden sm:flex items-center gap-2 px-3 py-1.5 bg-slate-800/60 rounded-lg border border-slate-700 text-xs text-indigo-300">
+                    <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                    <span>Skor Terbaik: <strong id="global-high-score">0</strong></span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="flex-grow w-full max-w-6xl mx-auto px-4 py-8 flex items-center justify-center z-10">
+        
+        <!-- 0. LOGIN / INPUT NAMA SCREEN -->
+        <section id="login-screen" class="w-full max-w-md mx-auto glass rounded-2xl p-8 border border-slate-700 space-y-6 shadow-2xl relative overflow-hidden">
+            <div class="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500"></div>
+            <div class="text-center space-y-2">
+                <span class="text-3xl">👨‍🏫</span>
+                <h3 class="text-2xl font-bold font-title text-white">Selamat Datang</h3>
+                <p class="text-xs text-slate-400">Silakan isi profil Bapak/Ibu sebelum memulai cerdas cermat.</p>
+            </div>
+            
+            <div class="space-y-4">
+                <!-- Input Nama -->
+                <div>
+                    <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Nama Lengkap & Gelar</label>
+                    <input type="text" id="login-name-input" class="w-full px-4 py-3 rounded-xl bg-slate-900/80 border border-slate-700 text-slate-100 placeholder-slate-600 focus:outline-none focus:border-indigo-500 transition duration-200" placeholder="Contoh: Ibu Sri Wahyuni, S.Pd.">
+                </div>
+
+                <!-- Pilih Avatar/Emoji -->
+                <div>
+                    <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Pilih Avatar</label>
+                    <div class="grid grid-cols-6 gap-2" id="avatar-selector-grid">
+                        <button onclick="selectAvatar('👨‍🏫', this)" class="avatar-option py-2 bg-slate-800 rounded-xl border-2 border-indigo-500 text-xl hover:bg-slate-700 transition">👨‍🏫</button>
+                        <button onclick="selectAvatar('👩‍🏫', this)" class="avatar-option py-2 bg-slate-800 rounded-xl border-2 border-transparent text-xl hover:bg-slate-700 transition">👩‍🏫</button>
+                        <button onclick="selectAvatar('🎓', this)" class="avatar-option py-2 bg-slate-800 rounded-xl border-2 border-transparent text-xl hover:bg-slate-700 transition">🎓</button>
+                        <button onclick="selectAvatar('🧠', this)" class="avatar-option py-2 bg-slate-800 rounded-xl border-2 border-transparent text-xl hover:bg-slate-700 transition">🧠</button>
+                        <button onclick="selectAvatar('🚀', this)" class="avatar-option py-2 bg-slate-800 rounded-xl border-2 border-transparent text-xl hover:bg-slate-700 transition">🚀</button>
+                        <button onclick="selectAvatar('🌟', this)" class="avatar-option py-2 bg-slate-800 rounded-xl border-2 border-transparent text-xl hover:bg-slate-700 transition">🌟</button>
+                    </div>
+                </div>
+
+                <!-- Tombol Masuk -->
+                <div class="pt-2">
+                    <button onclick="processLogin()" class="w-full py-3.5 bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white font-bold rounded-xl shadow-lg shadow-indigo-500/20 hover:shadow-indigo-500/40 transform hover:-translate-y-0.5 transition duration-200 text-center">
+                        Masuk Ruang Cermat 🚪
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 1. WELCOME SCREEN -->
+        <section id="welcome-screen" class="w-full grid md:grid-cols-12 gap-8 items-center py-4 hidden">
+            <div class="md:col-span-7 space-y-6">
+                <div class="flex items-center gap-3">
+                    <span class="px-3 py-1.5 text-xs font-semibold tracking-wider text-indigo-300 uppercase bg-indigo-500/10 border border-indigo-500/30 rounded-full inline-block">
+                        🎮 Mode Kompetisi Aktif
+                    </span>
+                    <!-- Profil Ringkas -->
+                    <button onclick="logoutProfile()" class="text-xs text-pink-400 hover:text-pink-300 font-bold flex items-center gap-1">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
+                        Ganti Profil
+                    </button>
+                </div>
+                
+                <h2 class="text-3xl md:text-5xl lg:text-6xl font-black leading-tight font-title text-white">
+                    Halo, <span id="welcome-player-display" class="text-indigo-300">Guru Hebat</span> <span id="welcome-avatar-display">👨‍🏫</span><br>
+                    <span class="bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400">Siap Menguji Kompetensi?</span>
+                </h2>
+                <p class="text-slate-300 text-sm md:text-base leading-relaxed">
+                    Tingkatkan pemahaman Anda dalam 10 pilar esensial materi pendidik profesional mulai dari Kompetensi Pedagogik, Profesional, Literasi-Numerasi hingga Kebijakan & Budaya Lokal. Hadapi tantangan kuis mandiri atau bersaing secara waktu nyata melawan AI pintar!
+                </p>
+                
+                <div class="flex flex-wrap gap-4 pt-2">
+                    <button onclick="setupQuizMode('solo')" class="group px-6 py-3.5 bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white font-bold rounded-2xl shadow-xl shadow-indigo-500/20 hover:shadow-indigo-500/40 transform hover:-translate-y-0.5 transition duration-200 flex items-center gap-2 text-base">
+                        <span>Mulai Kuis Mandiri</span>
+                        <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 5l7 7-7 7M5 5l7 7-7 7"></path></svg>
+                    </button>
+                    
+                    <button onclick="setupQuizMode('vs-bot')" class="group px-6 py-3.5 bg-slate-800/90 hover:bg-slate-700 text-indigo-300 border border-indigo-500/30 hover:border-indigo-500/60 font-bold rounded-2xl shadow-lg transition duration-200 flex items-center gap-2 text-base">
+                        <span>Lawan AI (VS Bot)</span>
+                        <svg class="w-5 h-5 group-hover:animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                    </button>
+
+                    <button onclick="showLeaderboardScreen()" class="group px-6 py-3.5 bg-amber-500/10 hover:bg-amber-500/20 text-amber-300 border border-amber-500/30 hover:border-amber-500/60 font-bold rounded-2xl shadow-lg transition duration-200 flex items-center gap-2 text-base">
+                        <span>🏆 Papan Peringkat</span>
+                    </button>
+                </div>
+
+                <!-- List Fitur -->
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-4 pt-6 text-xs text-slate-400 border-t border-slate-800/80">
+                    <div class="flex items-center gap-2">
+                        <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="25" d="M5 13l4 4L19 7"></path></svg>
+                        <span>40 Soal Pilihan Berganda</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                        <span>3 Tombol Bantuan Aktif</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                        <span>Statistik Grafik Kekuatan</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="md:col-span-5 flex justify-center">
+                <div class="relative w-full max-w-sm">
+                    <!-- Efek Cahaya Belakang -->
+                    <div class="absolute -inset-1.5 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-2xl blur opacity-30 animate-pulse"></div>
+                    <div class="relative glass rounded-2xl p-6 border border-slate-700 space-y-4">
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs font-bold text-slate-400">📊 TOPIK TERSEDIA</span>
+                            <span class="text-xs bg-indigo-500/20 text-indigo-300 px-2 py-0.5 rounded-full font-bold">10 Materi</span>
+                        </div>
+                        <div class="space-y-2 max-h-[250px] overflow-y-auto pr-2" id="topic-badge-container">
+                            <!-- Diisi via JS -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. SETUP MODE SCREEN -->
+        <section id="setup-screen" class="w-full max-w-2xl mx-auto glass rounded-2xl p-8 border border-slate-700 space-y-6 hidden">
+            <button onclick="goToScreen('welcome-screen')" class="flex items-center gap-2 text-xs font-semibold text-slate-400 hover:text-white mb-2 transition">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                Kembali ke Menu Utama
+            </button>
+            
+            <h3 class="text-2xl font-bold font-title text-indigo-400 flex items-center gap-2" id="setup-title">
+                Konfigurasi Permainan
+            </h3>
+            
+            <div class="space-y-5">
+                <!-- Info Pemain Aktif -->
+                <div class="flex items-center gap-3 p-3 bg-slate-900/60 rounded-xl border border-slate-800">
+                    <span class="text-2xl" id="setup-player-avatar-badge">👨‍🏫</span>
+                    <div>
+                        <p class="text-xs text-slate-500 font-semibold">Pemain Terdaftar</p>
+                        <p class="text-sm font-bold text-slate-200" id="setup-player-name-badge">Nama Guru</p>
+                    </div>
+                </div>
+
+                <!-- Pilihan Topik -->
+                <div>
+                    <div class="flex justify-between items-center mb-2">
+                        <label class="block text-sm font-semibold text-slate-300">Pilih Cakupan Materi</label>
+                        <div class="flex gap-2 text-xs">
+                            <button onclick="toggleAllCategories(true)" class="text-indigo-400 hover:text-indigo-300 font-semibold">Pilih Semua</button>
+                            <span class="text-slate-600">|</span>
+                            <button onclick="toggleAllCategories(false)" class="text-indigo-400 hover:text-indigo-300 font-semibold">Kosongkan</button>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 max-h-[200px] overflow-y-auto pr-2 bg-slate-900/40 p-3 rounded-xl border border-slate-800/80" id="topic-checkboxes">
+                        <!-- Diisi via JS -->
+                    </div>
+                </div>
+
+                <!-- Bot Difficulty (Hanya jika mode VS Bot) -->
+                <div id="bot-difficulty-container" class="hidden">
+                    <label class="block text-sm font-semibold text-slate-300 mb-2">Tingkat Kesulitan Lawan (AI)</label>
+                    <div class="grid grid-cols-3 gap-3">
+                        <button onclick="setBotDifficulty('mudah')" id="btn-bot-easy" class="px-4 py-3 rounded-xl font-bold border transition duration-200 text-center text-sm border-slate-700 bg-slate-800/40 text-slate-400 hover:bg-slate-700/50">
+                            🟢 Mudah
+                        </button>
+                        <button onclick="setBotDifficulty('sedang')" id="btn-bot-medium" class="px-4 py-3 rounded-xl font-bold border transition duration-200 text-center text-sm border-indigo-500/50 bg-indigo-500/10 text-indigo-300">
+                            🟡 Sedang
+                        </button>
+                        <button onclick="setBotDifficulty('sulit')" id="btn-bot-hard" class="px-4 py-3 rounded-xl font-bold border transition duration-200 text-center text-sm border-pink-500/50 bg-pink-500/10 text-pink-300">
+                            🔴 Sulit
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Konfirmasi / Start -->
+                <div class="pt-4">
+                    <button onclick="startGame()" class="w-full py-4 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white font-bold rounded-xl shadow-lg transition duration-200 text-center text-lg flex items-center justify-center gap-2">
+                        <span>Mulai Cerdas Cermat 🚀</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. GAMEPLAY SCREEN -->
+        <section id="gameplay-screen" class="w-full grid lg:grid-cols-12 gap-6 hidden">
+            <!-- Sidebar Panel Kuis -->
+            <div class="lg:col-span-3 space-y-4">
+                <!-- Status Pemain & Bot -->
+                <div class="glass p-4 rounded-xl border border-slate-700 space-y-4">
+                    <!-- Pemain -->
+                    <div class="flex items-center justify-between pb-3 border-b border-slate-800">
+                        <div class="flex items-center gap-2.5">
+                            <div class="w-8 h-8 rounded-full bg-indigo-500 flex items-center justify-center font-bold text-white text-sm" id="player-avatar-letter">👨‍🏫</div>
+                            <div>
+                                <h4 class="text-xs font-semibold text-slate-400">Skor Anda</h4>
+                                <p class="text-sm font-bold truncate max-w-[120px]" id="hud-player-name">Peserta</p>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-lg font-black text-indigo-400" id="hud-player-score">0</p>
+                            <p class="text-[10px] text-emerald-400" id="hud-streak">Beruntun: 0🔥</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Bot (Jika Mode VS Bot) -->
+                    <div id="hud-bot-container" class="flex items-center justify-between pb-3 border-b border-slate-800 hidden">
+                        <div class="flex items-center gap-2.5">
+                            <div class="w-8 h-8 rounded-full bg-purple-600 flex items-center justify-center font-bold text-white text-sm">🤖</div>
+                            <div>
+                                <h4 class="text-xs font-semibold text-slate-400">Skor AI</h4>
+                                <p class="text-sm font-bold" id="hud-bot-name">Guru Pintar AI</p>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-lg font-black text-purple-400" id="hud-bot-score">0</p>
+                            <p class="text-[10px] text-pink-400" id="hud-bot-status">Berpikir...</p>
+                        </div>
+                    </div>
+
+                    <!-- Info Pertanyaan -->
+                    <div class="flex justify-between items-center text-xs text-slate-400">
+                        <span>Kemajuan Soal</span>
+                        <span class="font-bold text-slate-200" id="hud-progress">1 / 10</span>
+                    </div>
+                    <div class="w-full bg-slate-900/60 rounded-full h-2 overflow-hidden border border-slate-800">
+                        <div id="progress-bar-fill" class="bg-gradient-to-r from-indigo-500 to-purple-500 h-full w-[10%] transition-all duration-300"></div>
+                    </div>
+                </div>
+
+                <!-- Tombol Bantuan (Hanya Mode Solo) -->
+                <div id="lifelines-container" class="glass p-4 rounded-xl border border-slate-700 space-y-3">
+                    <h5 class="text-xs font-bold text-slate-400 tracking-wider">TOMBOL BANTUAN</h5>
+                    <div class="grid grid-cols-1 gap-2">
+                        <button id="lifeline-fifty" onclick="useFiftyFifty()" class="flex items-center justify-between p-2.5 rounded-lg bg-slate-800/80 border border-slate-700 hover:bg-slate-700/60 transition duration-150 group text-left">
+                            <div class="flex items-center gap-2">
+                                <span class="p-1.5 bg-indigo-500/20 text-indigo-300 rounded-md font-bold text-xs">50:50</span>
+                                <span class="text-xs font-medium text-slate-200">Menghapus 2 Pilihan Salah</span>
+                            </div>
+                            <span class="text-[10px] text-slate-500 group-hover:text-slate-300">Gunakan</span>
+                        </button>
+                        
+                        <button id="lifeline-time" onclick="useExtraTime()" class="flex items-center justify-between p-2.5 rounded-lg bg-slate-800/80 border border-slate-700 hover:bg-slate-700/60 transition duration-150 group text-left">
+                            <div class="flex items-center gap-2">
+                                <span class="p-1.5 bg-indigo-500/20 text-indigo-300 rounded-md font-bold text-xs">+15s</span>
+                                <span class="text-xs font-medium text-slate-200">Tambah Waktu Kuis</span>
+                            </div>
+                            <span class="text-[10px] text-slate-500 group-hover:text-slate-300">Gunakan</span>
+                        </button>
+
+                        <button id="lifeline-expert" onclick="useExpert()" class="flex items-center justify-between p-2.5 rounded-lg bg-slate-800/80 border border-slate-700 hover:bg-slate-700/60 transition duration-150 group text-left">
+                            <div class="flex items-center gap-2">
+                                <span class="p-1.5 bg-indigo-500/20 text-indigo-300 rounded-md font-bold text-xs">🧑‍🏫</span>
+                                <span class="text-xs font-medium text-slate-200">Bantuan Rekomendasi Ahli</span>
+                            </div>
+                            <span class="text-[10px] text-slate-500 group-hover:text-slate-300">Gunakan</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Area Soal & Pilihan -->
+            <div class="lg:col-span-9 space-y-4">
+                <div class="glass rounded-xl p-6 border border-slate-700 relative overflow-hidden flex flex-col justify-between min-h-[400px]">
+                    <!-- Topik & Timer -->
+                    <div class="flex items-center justify-between mb-4 border-b border-slate-800/80 pb-3">
+                        <span id="quiz-question-category" class="px-2.5 py-1 text-xs font-bold text-indigo-300 bg-indigo-500/15 border border-indigo-500/30 rounded-lg">
+                            Materi Kuis
+                        </span>
+                        
+                        <!-- Visual Timer -->
+                        <div class="flex items-center gap-2">
+                            <svg class="w-4 h-4 text-amber-400 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="animation-duration: 3s;"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            <span id="timer-text" class="text-lg font-black text-amber-400 font-title w-8">20s</span>
+                        </div>
+                    </div>
+
+                    <!-- Progress Bar Timer -->
+                    <div class="w-full h-1 bg-slate-900 rounded-full overflow-hidden mb-6">
+                        <div id="timer-bar-fill" class="h-full bg-gradient-to-r from-amber-400 to-orange-500 w-full transition-all duration-100 ease-linear"></div>
+                    </div>
+
+                    <!-- Wadah Soal -->
+                    <div id="question-box" class="space-y-4 flex-grow flex flex-col justify-center">
+                        <p id="quiz-question-text" class="text-lg md:text-xl font-bold leading-relaxed text-white">
+                            Memuat pertanyaan...
+                        </p>
+                    </div>
+
+                    <!-- Bot Action Banner (Untuk VS Bot Mode) -->
+                    <div id="bot-action-banner" class="hidden my-4 p-3 bg-purple-500/10 border border-purple-500/30 rounded-xl flex items-center justify-between animate-pulse">
+                        <span class="text-xs font-semibold text-purple-300">🤖 AI sedang menganalisis soal...</span>
+                        <span id="bot-live-status-badge" class="px-2 py-0.5 text-[10px] bg-purple-500/20 text-purple-200 rounded">Berpikir</span>
+                    </div>
+
+                    <!-- Pembungkas Pilihan Jawaban -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mt-6" id="option-buttons-container">
+                        <!-- Tombol Jawaban diisi dinamis -->
+                    </div>
+                </div>
+
+                <!-- Penjelasan Jawaban (Awalnya tersembunyi) -->
+                <div id="explanation-box" class="glass rounded-xl p-6 border border-emerald-500/30 bg-emerald-950/20 space-y-3 transition-all duration-300 hidden">
+                    <div class="flex items-center gap-2 text-emerald-400 font-bold text-sm">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        <span>Penjelasan Konseptual</span>
+                    </div>
+                    <p id="explanation-text" class="text-xs md:text-sm text-slate-300 leading-relaxed">
+                        Penjelasan tentang pertanyaan yang bersangkutan akan muncul di sini secara detail setelah menjawab untuk mendukung aspek literasi edukatif pengguna.
+                    </p>
+                    <div class="flex justify-end pt-2">
+                        <button onclick="nextQuestion()" class="px-5 py-2.5 bg-indigo-500 hover:bg-indigo-600 text-white text-xs font-bold rounded-lg transition-all flex items-center gap-2">
+                            <span>Pertanyaan Berikutnya</span>
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. SUMMARY / SCOREBOARD SCREEN -->
+        <section id="summary-screen" class="w-full grid lg:grid-cols-12 gap-8 hidden py-4">
+            <!-- Hasil Utama -->
+            <div class="lg:col-span-4 flex flex-col justify-between glass rounded-2xl p-6 border border-slate-700 text-center relative overflow-hidden min-h-[450px]">
+                <div class="absolute inset-0 bg-gradient-to-b from-indigo-500/10 to-transparent pointer-events-none"></div>
+                <div class="space-y-2 relative z-10">
+                    <span id="finish-status" class="px-3 py-1 bg-indigo-500/20 border border-indigo-500/40 text-indigo-300 text-xs rounded-full font-bold uppercase tracking-wider inline-block">Kuis Selesai!</span>
+                    <h3 class="text-2xl font-black font-title text-white">Selamat Berjuang!</h3>
+                    <p class="text-xs text-slate-400" id="summary-player-name">Bapak/Ibu Guru Hebat</p>
+                </div>
+
+                <div class="py-6 relative z-10">
+                    <div class="w-36 h-36 rounded-full border-4 border-indigo-500/30 flex flex-col items-center justify-center mx-auto bg-slate-900/60 relative">
+                        <div class="absolute inset-0 rounded-full border-4 border-indigo-500 border-t-transparent animate-spin" style="animation-duration: 4s;"></div>
+                        <span class="text-xs text-slate-400 font-semibold uppercase">Total Skor</span>
+                        <span class="text-4xl font-black text-indigo-400 font-title" id="summary-total-score">0</span>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4 bg-slate-900/50 p-4 rounded-xl border border-slate-800 relative z-10 text-xs text-slate-300">
+                    <div>
+                        <span class="block text-slate-500 font-semibold">Benar</span>
+                        <span class="text-emerald-400 font-black text-lg" id="summary-correct-count">0</span>
+                    </div>
+                    <div>
+                        <span class="block text-slate-500 font-semibold">Salah</span>
+                        <span class="text-pink-400 font-black text-lg" id="summary-wrong-count">0</span>
+                    </div>
+                </div>
+
+                <!-- Tombol Navigasi Selesai -->
+                <div class="pt-4 flex flex-col gap-2 relative z-10">
+                    <button onclick="goToScreen('welcome-screen')" class="w-full py-3 bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white font-bold rounded-xl shadow-lg shadow-indigo-500/20 transition">
+                        Kembali ke Menu Utama
+                    </button>
+                    <button onclick="showLeaderboardScreen()" class="w-full py-3 bg-amber-500/25 hover:bg-amber-500/35 text-amber-300 rounded-xl transition font-bold text-xs border border-amber-500/40">
+                        🏆 Lihat Papan Peringkat (Leaderboard)
+                    </button>
+                    <button onclick="toggleDetailedReview()" class="w-full py-3 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl transition font-medium text-xs">
+                        Lihat Ulasan Detail Soal
+                    </button>
+                </div>
+            </div>
+
+            <!-- Analisis Kompetensi & Statistik -->
+            <div class="lg:col-span-8 glass rounded-2xl p-6 border border-slate-700 space-y-6">
+                <div>
+                    <h4 class="text-lg font-bold font-title text-indigo-400">Peta Kompetensi Anda</h4>
+                    <p class="text-xs text-slate-400">Grafik berikut memperlihatkan tingkat kekuatan Anda pada masing-masing topik uji coba.</p>
+                </div>
+
+                <!-- Grafik Batang horizontal untuk kekuatan per materi -->
+                <div class="space-y-4" id="stats-bars-container">
+                    <!-- Bar statistika diisi secara dinamis via JS -->
+                </div>
+
+                <!-- Rekomendasi Pintar AI -->
+                <div class="p-4 bg-indigo-950/40 rounded-xl border border-indigo-500/25 space-y-2">
+                    <span class="text-xs font-bold text-indigo-300 tracking-wider flex items-center gap-1.5">
+                        💡 REKOMENDASI PENGEMBANGAN GURU:
+                    </span>
+                    <p id="smart-recommendation-text" class="text-xs md:text-sm text-slate-300 leading-relaxed">
+                        Analisis data menunjukkan bahwa fokus peningkatan lebih lanjut dapat dititikberatkan pada aspek regulasi kurikulum dan literasi numerasi dasar kelas.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. LEADERBOARD SCREEN -->
+        <section id="leaderboard-screen" class="w-full max-w-3xl mx-auto glass rounded-2xl p-8 border border-slate-700 space-y-6 hidden shadow-2xl">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-4">
+                <div class="flex items-center gap-3">
+                    <span class="text-3xl">🏆</span>
+                    <div>
+                        <h3 class="text-2xl font-bold font-title text-amber-400">Papan Peringkat</h3>
+                        <p class="text-xs text-slate-400">10 Pendidik dengan skor tertinggi nasional</p>
+                    </div>
+                </div>
+                <button onclick="goToScreen('welcome-screen')" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 rounded-xl text-xs font-bold transition flex items-center gap-2">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+                    Kembali
+                </button>
+            </div>
+
+            <div class="overflow-x-auto rounded-xl border border-slate-800/80 bg-slate-950/40">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="bg-slate-900/80 border-b border-slate-800 text-xs font-bold text-slate-400 uppercase tracking-wider">
+                            <th class="py-3 px-4 text-center w-16">Rank</th>
+                            <th class="py-3 px-4">Nama Pendidik</th>
+                            <th class="py-3 px-4 text-center">Tipe Kuis</th>
+                            <th class="py-3 px-4 text-center">Benar</th>
+                            <th class="py-3 px-4 text-right">Skor Akhir</th>
+                        </tr>
+                    </thead>
+                    <tbody id="leaderboard-table-body" class="text-sm divide-y divide-slate-800/60">
+                        <!-- Diisi via JS -->
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="flex justify-between items-center pt-2">
+                <p class="text-[10px] text-slate-500">Papan skor disimpan secara otomatis di perangkat Anda.</p>
+                <button onclick="resetLeaderboardData()" class="text-xs text-red-400 hover:text-red-300 font-bold transition flex items-center gap-1.5">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                    Atur Ulang Papan
+                </button>
+            </div>
+        </section>
+
+        <!-- Ulasan Detail Soal (Tersembunyi default di bawah summary) -->
+        <section id="review-screen" class="w-full glass rounded-2xl p-6 border border-slate-700 space-y-4 hidden mt-6">
+            <h4 class="text-xl font-bold font-title text-indigo-400 flex items-center gap-2">
+                📂 Lembar Ulasan Jawaban
+            </h4>
+            <p class="text-xs text-slate-400">Tinjau kembali pilihan jawaban Anda dan pelajari poin-poin yang tepat demi penguasaan materi.</p>
+            <div class="space-y-4 max-h-[600px] overflow-y-auto pr-2" id="review-items-container">
+                <!-- Diisi via JS -->
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Modal Ahli (Popup Bantuan) -->
+    <div id="expert-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/80 backdrop-blur-sm hidden px-4">
+        <div class="glass w-full max-w-sm rounded-2xl p-6 border border-slate-700 space-y-4 animate-pop">
+            <div class="flex items-center gap-3">
+                <span class="text-3xl">🧑‍🏫</span>
+                <div>
+                    <h4 class="font-bold text-slate-200">Rekomendasi Ahli</h4>
+                    <p class="text-[10px] text-slate-400">Analisis Probabilitas Jawaban</p>
+                </div>
+            </div>
+            <p class="text-xs text-slate-300 leading-relaxed">
+                Berdasarkan kajian dewan pakar pendidikan, perkiraan pilihan jawaban yang paling memiliki dasar ilmiah kuat adalah:
+            </p>
+            <div class="space-y-2" id="expert-predictions-container">
+                <!-- Diisi via JS -->
+            </div>
+            <button onclick="closeExpertModal()" class="w-full py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold rounded-lg text-xs transition">
+                Kembali ke Soal
+            </button>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed bottom-6 right-6 z-50 transform translate-y-20 opacity-0 transition-all duration-300 max-w-sm glass border border-slate-700 px-5 py-3 rounded-xl flex items-center gap-3 shadow-2xl">
+        <div class="p-1 rounded-full bg-emerald-500/20 text-emerald-400" id="toast-icon">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+        </div>
+        <p class="text-xs md:text-sm text-slate-200 font-medium" id="toast-msg">Notifikasi pesan kuis</p>
+    </div>
+
+    <!-- Footer -->
+    <footer class="w-full py-4 text-center text-[10px] md:text-xs text-slate-500 border-t border-slate-900 glass">
+        <p>© 2026 Cerdas Cermat Nusantara • Pendidik Tangguh, Indonesia Maju</p>
+    </footer>
+
+    <!-- Audio Synth Control & Question Database -->
+    <script>
+        // 1. DATABASE SOAL (4 Soal per Kategori, Total 40 Soal)
+        const QUESTION_BANK = [
+            // KATEGORI 1: Kompetensi Pedagogik
+            {
+                id: 1,
+                categoryId: 1,
+                categoryName: "Kompetensi Pedagogik",
+                question: "Teori belajar yang menekankan pada perubahan tingkah laku sebagai hasil dari interaksi antara stimulus dan respon adalah...",
+                options: ["Behavioristik", "Kognitivistik", "Konstruktivistik", "Humanistik"],
+                correctIndex: 0,
+                explanation: "Teori belajar behavioristik mengedepankan pembentukan hubungan stimulus-respons, di mana perubahan tingkah laku yang terukur dipandang sebagai indikator utama hasil belajar."
+            },
+            {
+                id: 2,
+                categoryId: 1,
+                categoryName: "Kompetensi Pedagogik",
+                question: "Tindakan guru dalam memberikan penguatan positif (reinforcement) dalam proses pembelajaran bertujuan utama untuk...",
+                options: ["Menghukum kegagalan siswa", "Meningkatkan motivasi dan mengulang perilaku positif siswa", "Menghentikan seluruh interaksi kelas secara mendadak", "Mengukur kecerdasan emosional siswa"],
+                correctIndex: 1,
+                explanation: "Penguatan positif (seperti pujian atau hadiah) diberikan dengan tujuan meningkatkan freuangan atau memperkuat munculnya perilaku positif siswa di masa mendatang."
+            },
+            {
+                id: 3,
+                categoryId: 1,
+                categoryName: "Kompetensi Pedagogik",
+                question: "Salah satu aspek dalam penilaian proses dan hasil belajar yang mengukur kemampuan berpikir tingkat tinggi siswa adalah...",
+                options: ["Tes hafalan rumus dasar", "Soal bertipe HOTS (Higher Order Thinking Skills)", "Dikte ejaan kosakata", "Ujian ingatan definisi tertulis"],
+                correctIndex: 1,
+                explanation: "HOTS melatih siswa melakukan analisis, evaluasi, dan penciptaan (C4-C6), bukan sekadar mengingat (C1) atau memahami (C2)."
+            },
+            {
+                id: 4,
+                categoryId: 1,
+                categoryName: "Kompetensi Pedagogik",
+                question: "Pendekatan pembelajaran berpusat pada siswa di mana peserta didik aktif mengonstruksi pengetahuan secara kolaboratif didasari oleh prinsip...",
+                options: ["Konstruktivisme", "Esensialisme", "Behaviorisme", "Perenialisme"],
+                correctIndex: 0,
+                explanation: "Konstruktivisme menekankan bahwa siswa aktif membangun pemahaman mereka sendiri berdasarkan asimilasi dan akomodasi pengalaman belajar barunya."
+            },
+
+            // KATEGORI 2: Kompetensi Profesional Guru
+            {
+                id: 5,
+                categoryId: 2,
+                categoryName: "Kompetensi Profesional Guru",
+                question: "Guru yang melakukan Penelitian Tindakan Kelas (PTK) demi mengatasi permasalahan nyata di kelasnya menunjukkan perilaku pengembangan...",
+                options: ["Keuangan Guru berkelanjutan", "Keprofesian Berkelanjutan (PKB)", "Kompetensi Sosial kemitraan", "Sertifikasi Formal semata"],
+                correctIndex: 1,
+                explanation: "PTK adalah instrumen refleksi profesional yang masuk ke dalam upaya Pengembangan Keprofesian Berkelanjutan (PKB) guru."
+            },
+            {
+                id: 7,
+                categoryId: 2,
+                categoryName: "Kompetensi Profesional Guru",
+                question: "Tujuan utama adanya Kode Etik Guru Indonesia yang disepakati oleh organisasi profesi guru adalah...",
+                options: ["Menjamin kenaikan gaji otomatis seluruh guru", "Menjaga martabat, kehormatan, dan standar perilaku profesional guru", "Mengontrol jalur politik seluruh pendidik", "Mewajibkan jam mengajar di luar tugas pokok"],
+                correctIndex: 1,
+                explanation: "Kode etik dirumuskan agar profesi guru tetap terhormat, memiliki garis moralitas yang jelas, dan melindungi hak serta batasan profesi pendidik."
+            },
+            {
+                id: 8,
+                categoryId: 2,
+                categoryName: "Kompetensi Profesional Guru",
+                question: "Ketika guru menganalisis hasil evaluasi belajar untuk merancang materi remedial atau pengayaan, maka guru sedang mempraktikkan proses...",
+                options: ["Evaluasi kinerja kepala sekolah", "Refleksi dan tindak lanjut pembelajaran", "Administrasi perpajakan sekolah", "Pelaporan nilai ke dinas ketenagakerjaan"],
+                correctIndex: 1,
+                explanation: "Melakukan refleksi atas hasil ujian lalu menyusun pembelajaran remedial/pengayaan adalah siklus vital peningkatan mutu pembelajaran berbasis data."
+            },
+
+            // KATEGORI 3: Kurikulum dan Pembelajaran
+            {
+                id: 9,
+                categoryId: 3,
+                categoryName: "Kurikulum dan Pembelajaran",
+                question: "Pada struktur Kurikulum Merdeka, dokumen acuan kompetensi akhir yang wajib dicapai oleh siswa pada tiap fase perkembangan dinamakan...",
+                options: ["Silabus Pokok", "Capaian Pembelajaran (CP)", "Kriteria Ketuntasan Minimal", "Rencana Pelaksanaan Pembelajaran"],
+                correctIndex: 1,
+                explanation: "Capaian Pembelajaran (CP) merupakan sekumpulan kompetensi dan lingkup materi yang disusun secara komprehensif dalam bentuk narasi untuk tiap fase."
+            },
+            {
+                id: 10,
+                categoryId: 3,
+                categoryName: "Kurikulum dan Pembelajaran",
+                question: "Alur Tujuan Pembelajaran (ATP) dalam implementasi Kurikulum Merdeka disusun secara logis dengan tujuan...",
+                options: ["Mempersulit evaluasi kerja guru oleh pengawas", "Memandu jalannya proses pembelajaran secara sistematis dan bertahap dalam satu fase", "Membatasi materi agar hanya berbasis buku paket", "Menggantikan dokumen ijazah kelulusan siswa"],
+                correctIndex: 1,
+                explanation: "ATP adalah rangkaian Tujuan Pembelajaran (TP) yang disusun secara logis dan kronologis agar siswa dapat mencapai Capaian Pembelajaran secara optimal."
+            },
+            {
+                id: 11,
+                categoryId: 3,
+                categoryName: "Kurikulum dan Pembelajaran",
+                question: "Asesmen yang dilakukan guru secara khusus pada awal tahun ajaran untuk mendeteksi kesiapan belajar dan kebutuhan psikososial siswa adalah...",
+                options: ["Asesmen Diagnostik", "Asesmen Sumatif Akhir Semester", "Asesmen Standar Nasional", "Asesmen Formatif Akhir Unit"],
+                correctIndex: 0,
+                explanation: "Asesmen diagnostik (baik kognitif maupun non-kognitif) bertujuan memetakan kesiapan, profil belajar, dan kondisi emosional awal siswa sebelum pembelajaran dimulai."
+            },
+            {
+                id: 12,
+                categoryId: 3,
+                categoryName: "Kurikulum dan Pembelajaran",
+                question: "Penggunaan model pembelajaran berbasis proyek (Project-Based Learning) menekankan aktivitas belajar siswa pada...",
+                options: ["Menghafal rumus secara kilat", "Menginvestigasi dan menyelesaikan tantangan masalah di kehidupan nyata secara kolaboratif", "Mengikuti ceramah monolog sepanjang sesi kelas", "Menyalin tulisan dari papan tulis ke buku cetak"],
+                correctIndex: 1,
+                explanation: "PjBL menempatkan siswa sebagai penyelidik aktif yang mengonstruksi solusi nyata atas problem riil demi melatih kemandirian dan kolaborasi."
+            },
+
+            // KATEGORI 4: Literasi dan Numerasi
+            {
+                id: 13,
+                categoryId: 4,
+                categoryName: "Literasi dan Numerasi",
+                question: "Kemampuan mengidentifikasi, mengolah, dan mengevaluasi teks tertulis secara kritis demi memperluas wawasan dan berpartisipasi di masyarakat adalah definisi...",
+                options: ["Literasi Membaca", "Numerasi Dasar", "Literasi Finansial Terbatas", "Visualisasi Data Grafis"],
+                correctIndex: 0,
+                explanation: "Literasi membaca tidak sekadar mengeja, melainkan memahami, merefleksikan, dan menyaring informasi tekstual untuk tujuan produktif."
+            },
+            {
+                id: 14,
+                categoryId: 4,
+                categoryName: "Literasi dan Numerasi",
+                question: "Sebuah keluarga memerlukan 12 liter beras untuk kebutuhan konsumsi selama 3 hari. Berapakah liter beras yang dibutuhkan selama 10 hari?",
+                options: ["30 Liter", "36 Liter", "40 Liter", "45 Liter"],
+                correctIndex: 2,
+                explanation: "Rasio konsumsi beras: 12 liter / 3 hari = 4 liter per hari. Untuk 10 hari, dibutuhkan 4 liter x 10 = 40 liter."
+            },
+            {
+                id: 15,
+                categoryId: 4,
+                categoryName: "Literasi dan Numerasi",
+                question: "Siswa diminta membaca infografik tren suhu bumi lalu menyimpulkan faktor percepatan pemanasan global. Aktivitas ini mengintegrasikan...",
+                options: ["Hanya keahlian motorik kasar", "Literasi membaca analitis dan numerasi pemahaman data", "Kemampuan mengeja cepat", "Unsur seni tari daerah"],
+                correctIndex: 1,
+                explanation: "Menganalisis diagram, statistik, dan narasi pendukung merupakan paduan holistik kecakapan literasi teks sekaligus numerasi interpretasi data grafik."
+            },
+            {
+                id: 16,
+                categoryId: 4,
+                categoryName: "Literasi dan Numerasi",
+                question: "Toko Buku Nusantara menerapkan promo diskon 20%, disusul diskon tambahan 10% atas nilai sisa setelah diskon pertama. Berapa total persentase diskon akumulatif?",
+                options: ["30%", "28%", "25%", "22%"],
+                correctIndex: 1,
+                explanation: "Misal harga 100. Diskon pertama 20%: sisa harga 80. Diskon kedua 10% dari 80: potongan sebesar 8. Total potongan = 20 + 8 = 28. Sehingga total diskon kumulatif adalah 28%."
+            },
+
+            // KATEGORI 5: Pendidikan Karakter
+            {
+                id: 17,
+                categoryId: 5,
+                categoryName: "Pendidikan Karakter",
+                question: "Pilar karakter dasar yang termaktub secara resmi dalam Profil Pelajar Pancasila di bawah Kurikulum Merdeka berjumlah...",
+                options: ["5 Dimensi utama", "6 Dimensi utama", "8 Dimensi utama", "10 Dimensi utama"],
+                correctIndex: 1,
+                explanation: "Profil Pelajar Pancasila terdiri atas 6 dimensi: Beriman & bertakwa, Berkebinekaan global, Gotong royong, Mandiri, Bernalar kritis, dan Kreatif."
+            },
+            {
+                id: 18,
+                categoryId: 5,
+                categoryName: "Pendidikan Karakter",
+                question: "Sikap saling menghormati pendapat, menghargai latar belakang agama, budaya, dan ras orang lain mencerminkan penguatan dimensi Pelajar Pancasila...",
+                options: ["Kemandirian Fisik", "Kebinekaan Global", "Kecerdasan Estetika", "Ketangguhan Teknis"],
+                correctIndex: 1,
+                explanation: "Kebinekaan global menuntut siswa menghargai kemajemukan budaya lokal hingga internasional demi keadilan sosial dan perdamaian."
+            },
+            {
+                id: 19,
+                categoryId: 5,
+                categoryName: "Pendidikan Karakter",
+                question: "Membiasakan siswa menyisihkan uang saku untuk disimpan dalam tabungan kelas secara disiplin melatih pembentukan nilai karakter...",
+                options: ["Ketamakan finansial", "Gaya hidup hemat dan kemandirian masa depan", "Konsumerisme dini", "Keserakahan investasi kelompok"],
+                correctIndex: 1,
+                explanation: "Menabung secara rutin di sekolah mengajarkan penundaan kepuasan sesaat (delay gratification) dan pola hidup hemat berencana."
+            },
+            {
+                id: 20,
+                categoryId: 5,
+                categoryName: "Pendidikan Karakter",
+                question: "Menghargai jerih payah dan karya cipta buatan teman kelas tanpa mencemooh merupakan salah satu pengamalan nyata Pancasila, khususnya Sila ke...",
+                options: ["Sila ke-1", "Sila ke-2", "Sila ke-4", "Sila ke-5"],
+                correctIndex: 3,
+                explanation: "Menghargai hasil karya orang lain tercantum dalam nilai luhur keadilan sosial bagi seluruh rakyat Indonesia (Sila ke-5)."
+            },
+
+            // KATEGORI 6: Wawasan Kebangsaan
+            {
+                id: 21,
+                categoryId: 6,
+                categoryName: "Wawasan Kebangsaan",
+                question: "Formulasi resmi Empat Konsensus Dasar (Empat Pilar) Bangsa Indonesia terdiri atas...",
+                options: [
+                    "Pancasila, Proklamasi, GBHN, Dekrit Presiden",
+                    "Pancasila, UUD 1945, NKRI, dan Bhinneka Tunggal Ika",
+                    "UUD 1945, Piagam Jakarta, Sumpah Pemuda, Konstitusi RIS",
+                    "Garuda Pancasila, Sang Saka Merah Putih, Indonesia Raya, Bahasa Indonesia"
+                ],
+                correctIndex: 1,
+                explanation: "Empat konsensus kebangsaan yang fundamental adalah Pancasila, UUD NRI Tahun 1945, Negara Kesatuan Republik Indonesia (NKRI), dan semboyan Bhinneka Tunggal Ika."
+            },
+            {
+                id: 22,
+                categoryId: 6,
+                categoryName: "Wawasan Kebangsaan",
+                question: "Lagu kebangsaan Indonesia Raya secara historis pertama kali diperdengarkan secara resmi di muka umum pada momentum...",
+                options: ["Proklamasi Kemerdekaan 1945", "Kongres Pemuda II (Peristiwa Sumpah Pemuda) tahun 1928", "Sidang Pertama BPUPKI", "Deklarasi Djuanda 1957"],
+                correctIndex: 1,
+                explanation: "Lagu karya Wage Rudolf Supratman tersebut dimainkan secara instrumental biola pada Kongres Pemuda II tanggal 28 Oktober 1928."
+            },
+            {
+                id: 23,
+                categoryId: 6,
+                categoryName: "Wawasan Kebangsaan",
+                question: "Semboyan 'Bhinneka Tunggal Ika' yang tertulis pada lambang negara Garuda Pancasila dikutip dari mahakarya Kitab Sutasoma gubahan...",
+                options: ["Mpu Prapanca", "Mpu Tantular", "Mpu Gandring", "Mpu Sedah"],
+                correctIndex: 1,
+                explanation: "Kitab Kakawin Sutasoma digubah oleh Mpu Tantular pada zaman kejayaan Kerajaan Majapahit abad ke-14."
+            },
+            {
+                id: 24,
+                categoryId: 6,
+                categoryName: "Wawasan Kebangsaan",
+                question: "Batas laut teritorial kedaulatan Indonesia berjarak 12 mil dari garis pangkal terluar kepulauan disahkan secara internasional melalui...",
+                options: ["UNCLOS (Konvensi Hukum Laut PBB)", "Perjanjian Linggadjati", "Konferensi Meja Bundar", "Perjanjian Versailles"],
+                correctIndex: 0,
+                explanation: "United Nations Convention on the Law of the Sea (UNCLOS) menetapkan kedaulatan laut teritorial Indonesia sejauh 12 mil laut."
+            },
+
+            // KATEGORI 7: Teknologi Pendidikan
+            {
+                id: 25,
+                categoryId: 7,
+                categoryName: "Teknologi Pendidikan",
+                question: "Aplikasi online yang berfungsi mengelola manajemen kelas virtual, tugas belajar, materi ajar, dan rekapitulasi nilai dinilai sebagai...",
+                options: ["VMS (Video Monitoring System)", "LMS (Learning Management System)", "CRM (Customer Relationship Management)", "ERP (Enterprise Resource Planning)"],
+                correctIndex: 1,
+                explanation: "Learning Management System (seperti Google Classroom, Moodle) digunakan khusus mengelola aktivitas akademis daring."
+            },
+            {
+                id: 26,
+                categoryId: 7,
+                categoryName: "Teknologi Pendidikan",
+                question: "Konsep pembelajaran terpadu 'Blended Learning' secara operasional merujuk pada integrasi praktis antara...",
+                options: ["Pembelajaran tatap muka konvensional dan pembelajaran mandiri berbasis digital", "Pendidikan luar sekolah dan bimbingan belajar komersial", "Mata pelajaran IPA dan IPS dalam kurikulum umum", "Metode ceramah lisan dan evaluasi lisan"],
+                correctIndex: 0,
+                explanation: "Blended learning memadukan kekuatan interaksi tatap muka fisik (synchronous) dan kepraktisan belajar mandiri online (asynchronous)."
+            },
+            {
+                id: 27,
+                categoryId: 7,
+                categoryName: "Teknologi Pendidikan",
+                question: "Kerangka kerja TPACK mengidentifikasi kompetensi guru yang memadukan tiga komponen utama pengetahuan, yaitu...",
+                options: ["Teka-teki, Permainan, Aksi, Cerita, Kreativitas", "Technological, Pedagogical, and Content Knowledge", "Teoretis, Praktis, Akademik, Karakter, Kinerja", "Teknik, Penilaian, Analisis, Capaian, Kompetensi"],
+                correctIndex: 1,
+                explanation: "TPACK (Technological Pedagogical Content Knowledge) menekankan pentingnya guru menguasai teknologi dan pedagogi untuk mengajarkan materi tertentu."
+            },
+            {
+                id: 28,
+                categoryId: 7,
+                categoryName: "Teknologi Pendidikan",
+                question: "Mengadopsi elemen mekanika gim (poin, lencana, papan skor) ke dalam kegiatan pembelajaran non-game untuk menaikkan antusiasme siswa disebut...",
+                options: ["Sosialisasi", "Gamifikasi", "Infiltrasi", "Digitalisasi murni"],
+                correctIndex: 1,
+                explanation: "Gamifikasi merupakan pemanfaatan komponen desain permainan dalam ranah edukasi guna mendorong motivasi belajar aktif siswa."
+            },
+
+            // KATEGORI 8: Kebijakan Pendidikan
+            {
+                id: 29,
+                categoryId: 8,
+                categoryName: "Kebijakan Pendidikan",
+                question: "Di bawah payung Merdeka Belajar, program yang merekrut calon guru terbaik untuk dididik menjadi pelopor kepemimpinan pembelajaran dinamakan...",
+                options: ["Program Guru Penggerak (PGP)", "Asistensi Mengajar Luar Negeri", "Sertifikasi Jalur Mandiri", "PNS Kategori Prioritas"],
+                correctIndex: 0,
+                explanation: "Pendidikan Guru Penggerak berorientasi mencetak pemimpin pembelajaran yang mampu menggerakkan komunitas praktisi guru di sekitarnya."
+            },
+            {
+                id: 30,
+                categoryId: 8,
+                categoryName: "Kebijakan Pendidikan",
+                question: "Undang-Undang Republik Indonesia Nomor 14 Tahun 2005 merupakan regulasi strategis nasional yang khusus mengatur tentang...",
+                options: ["Sistem Pendidikan Nasional secara global", "Guru dan Dosen", "Wajib Belajar Sembilan Tahun", "Pendanaan Operasional Sekolah (BOS)"],
+                correctIndex: 1,
+                explanation: "UU No 14 Tahun 2005 adalah tonggak hukum utama yang menetapkan guru dan dosen sebagai profesi bersertifikasi dengan jaminan kesejahteraan sosial."
+            },
+            {
+                id: 31,
+                categoryId: 8,
+                categoryName: "Kebijakan Pendidikan",
+                question: "Standar Nasional Pendidikan (SNP) yang ditetapkan oleh pemerintah Republik Indonesia memegang peran penting sebagai...",
+                options: ["Bahan utama soal ujian nasional", "Kriteria minimal sistem pendidikan di seluruh wilayah hukum NKRI", "Buku panduan kurikulum luar negeri", "Sanksi kedisiplinan guru magang"],
+                correctIndex: 1,
+                explanation: "SNP berfungsi sebagai acuan minimal perencanaan, pelaksanaan, dan pengawasan pendidikan dalam rangka mencerdaskan kehidupan bangsa."
+            },
+            {
+                id: 32,
+                categoryId: 8,
+                categoryName: "Kebijakan Pendidikan",
+                question: "Pada paradigma penilaian Kurikulum Merdeka, indikator evaluasi Kriteria Ketuntasan Minimal (KKM) kini digantikan dengan istilah...",
+                options: ["Standar Kompetensi Lulusan (SKL)", "Kriteria Ketercapaian Tujuan Pembelajaran (KKTP)", "Nilai Minimal Raport (NMR)", "Indeks Capaian Guru (ICG)"],
+                correctIndex: 1,
+                explanation: "KKTP digunakan guru untuk memantau apakah siswa telah mencapai ketuntasan tujuan pembelajaran tertentu secara lebih fleksibel dan kualitatif."
+            },
+
+            // KATEGORI 9: Pengetahuan Umum
+            {
+                id: 33,
+                categoryId: 9,
+                categoryName: "Pengetahuan Umum",
+                question: "Secara geografis, wilayah kepulauan Indonesia berada diapit oleh dua samudra luas, yakni...",
+                options: ["Samudra Atlantik dan Samudra Pasifik", "Samudra Hindia dan Samudra Pasifik", "Samudra Hindia dan Samudra Atlantik", "Samudra Arktik dan Samudra Hindia"],
+                correctIndex: 1,
+                explanation: "Indonesia berada di posisi silang dunia yang strategis di antara Samudra Hindia dan Samudra Pasifik, serta Benua Asia dan Benua Australia."
+            },
+            {
+                id: 34,
+                categoryId: 9,
+                categoryName: "Pengetahuan Umum",
+                question: "Tokoh pejuang kemerdekaan Indonesia yang dinobatkan sebagai Bapak Pendidikan Nasional atas jasa perjuangannya adalah...",
+                options: ["Ir. Soekarno", "Ki Hajar Dewantara", "Mohammad Hatta", "K.H. Ahmad Dahlan"],
+                correctIndex: 1,
+                explanation: "Raden Mas Soewardi Soerjaningrat (Ki Hajar Dewantara) mendirikan Perguruan Taman Siswa dan meletakkan fondasi filosofis pendidikan nasional."
+            },
+            {
+                id: 35,
+                categoryId: 9,
+                categoryName: "Pengetahuan Umum",
+                question: "Hari Pendidikan Nasional (Hardiknas) diperingati bangsa Indonesia setiap tanggal 2 Mei, bertepatan dengan...",
+                options: ["Lahirnya perguruan Taman Siswa", "Hari Lahir Ki Hajar Dewantara", "Pengesahan Undang-Undang Sisdiknas", "Hari lahir K.H. Hasyim Asy'ari"],
+                correctIndex: 1,
+                explanation: "Hardiknas dirayakan setiap 2 Mei guna menghormati jasa Ki Hajar Dewantara yang lahir pada tanggal 2 Mei 1889."
+            },
+            {
+                id: 36,
+                categoryId: 9,
+                categoryName: "Pengetahuan Umum",
+                question: "Berapakah jumlah provinsi resmi di wilayah Negara Kesatuan Republik Indonesia saat ini setelah adanya pemekaran wilayah di Papua?",
+                options: ["34 Provinsi", "36 Provinsi", "38 Provinsi", "40 Provinsi"],
+                correctIndex: 2,
+                explanation: "Pasca pemekaran empat provinsi baru di Papua pada tahun 2022 (Papua Selatan, Papua Tengah, Papua Pegunungan, dan Papua Barat Daya), Indonesia kini memiliki 38 provinsi."
+            },
+
+            // KATEGORI 10: Budaya dan Kearifan Lokal
+            {
+                id: 37,
+                categoryId: 10,
+                categoryName: "Budaya dan Kearifan Lokal",
+                question: "Rumah adat Tongkonan dengan arsitektur atap melengkung menyerupai haluan kapal laut merupakan simbol kearifan suku...",
+                options: ["Suku Minangkabau", "Suku Toraja", "Suku Batak", "Suku Dayak"],
+                correctIndex: 1,
+                explanation: "Tongkonan adalah rumah adat masyarakat suku Toraja di Sulawesi Selatan yang berfungsi sebagai pusat pembinaan keluarga dan ritual adat."
+            },
+            {
+                id: 38,
+                categoryId: 10,
+                categoryName: "Budaya dan Kearifan Lokal",
+                question: "Upacara adat kremasi atau pembakaran jenazah di Bali yang memiliki keunikan nilai ritual budaya tingkat dunia bernama...",
+                options: ["Sekaten", "Ngaben", "Tiwah", "Rambu Solo"],
+                correctIndex: 1,
+                explanation: "Ngaben merupakan upacara pelepasan leluhur lewat pembakaran jasad di Bali sebagai lambang penyucian roh kembali ke unsur Panca Maha Bhuta."
+            },
+            {
+                id: 39,
+                categoryId: 10,
+                categoryName: "Budaya dan Kearifan Lokal",
+                question: "Sistem irigasi pertanian tradisional Subak di Bali diakui UNESCO sebagai Warisan Budaya Dunia karena...",
+                options: ["Menggunakan pompa air otomatis modern", "Mencerminkan filosofi keselarasan hubungan manusia, alam, dan Tuhan (Tri Hita Karana)", "Dipimpin secara eksklusif oleh raja feodal", "Menggunakan pupuk kimia berteknologi tinggi"],
+                correctIndex: 1,
+                explanation: "Subak bukan sekadar cara mengalirkan air, melainkan manifestasi Tri Hita Karana yang menekankan harmoni sosial-keagamaan dalam bertani."
+            },
+            {
+                id: 40,
+                categoryId: 10,
+                categoryName: "Budaya dan Kearifan Lokal",
+                question: "Alat musik bambu tradisional asal Jawa Barat yang dimainkan secara goyang dan telah diakui sebagai warisan budaya takbenda UNESCO adalah...",
+                options: ["Kolintang", "Angklung", "Sasando", "Suling Bambu"],
+                correctIndex: 1,
+                explanation: "Angklung diakui UNESCO sebagai warisan budaya dunia takbenda pada tahun 2010 berkat keunikan harmonisasi nada gotong royongnya."
+            }
+        ];
+
+        // Daftar Kategori
+        const CATEGORIES = [
+            { id: 1, name: "Kompetensi Pedagogik", color: "from-blue-500 to-indigo-600" },
+            { id: 2, name: "Kompetensi Profesional Guru", color: "from-indigo-500 to-purple-600" },
+            { id: 3, name: "Kurikulum dan Pembelajaran", color: "from-purple-500 to-pink-600" },
+            { id: 4, name: "Literasi dan Numerasi", color: "from-pink-500 to-rose-600" },
+            { id: 5, name: "Pendidikan Karakter", color: "from-rose-500 to-orange-600" },
+            { id: 6, name: "Wawasan Kebangsaan", color: "from-orange-500 to-amber-600" },
+            { id: 7, name: "Teknologi Pendidikan", color: "from-teal-500 to-emerald-600" },
+            { id: 8, name: "Kebijakan Pendidikan", color: "from-emerald-500 to-green-600" },
+            { id: 9, name: "Pengetahuan Umum", color: "from-cyan-500 to-blue-600" },
+            { id: 10, name: "Budaya dan Kearifan Lokal", color: "from-violet-500 to-fuchsia-600" }
+        ];
+
+        // 2. SYNTHESIZER SOUND ENGINE (Web Audio API) & BACKGROUND MUSIC
+        let isSoundEnabled = true;
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        
+        // Inisialisasi Audio Musik Latar
+        const bgm = new Audio('https://github.com/Suci1788/gimcerdascermat/raw/refs/heads/main/The_Final_Theorem.mp3');
+        bgm.loop = true;
+        bgm.volume = 0.25; // Diatur agak lembut agar efek suara kuis tetap terdengar jelas
+        let isBgmPlaying = false;
+
+        function startBGM() {
+            if (isSoundEnabled && !isBgmPlaying) {
+                bgm.play()
+                    .then(() => {
+                        isBgmPlaying = true;
+                    })
+                    .catch(err => {
+                        console.log("Menunggu interaksi pengguna untuk memulai audio musik.", err);
+                    });
+            }
+        }
+
+        function playSynthSound(freqs, duration, type = "sine", delay = 0) {
+            if (!isSoundEnabled) return;
+            try {
+                if (audioCtx.state === 'suspended') {
+                    audioCtx.resume();
+                }
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                
+                osc.type = type;
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                
+                const now = audioCtx.currentTime + delay;
+                
+                if (freqs.length === 1) {
+                    osc.frequency.setValueAtTime(freqs[0], now);
+                } else {
+                    // Arpeggio
+                    freqs.forEach((freq, idx) => {
+                        osc.frequency.setValueAtTime(freq, now + (idx * 0.08));
+                    });
+                }
+                
+                gain.gain.setValueAtTime(0.15, now);
+                gain.gain.exponentialRampToValueAtTime(0.001, now + duration);
+                
+                osc.start(now);
+                osc.stop(now + duration);
+            } catch (e) {
+                console.error("Audio error", e);
+            }
+        }
+
+        const sounds = {
+            click: () => playSynthSound([600], 0.1, "triangle"),
+            correct: () => playSynthSound([523.25, 659.25, 783.99, 1046.50], 0.4, "sine"), // C major chord arpeggio
+            wrong: () => playSynthSound([220, 180, 150], 0.3, "sawtooth"), // Descending sad buzz
+            tick: () => playSynthSound([800], 0.05, "sine"),
+            extraTime: () => playSynthSound([440, 880], 0.25, "sine"),
+            win: () => {
+                playSynthSound([523.25, 659.25, 783.99, 1046.50], 0.5, "sine", 0);
+                playSynthSound([587.33, 739.99, 880.00, 1174.66], 0.5, "sine", 0.15);
+                playSynthSound([659.25, 830.61, 987.77, 1318.51], 0.7, "sine", 0.3);
+            }
+        };
+
+        function toggleSound() {
+            isSoundEnabled = !isSoundEnabled;
+            document.getElementById('sound-icon-on').classList.toggle('hidden', !isSoundEnabled);
+            document.getElementById('sound-icon-off').classList.toggle('hidden', isSoundEnabled);
+            
+            if (isSoundEnabled) {
+                bgm.play()
+                    .then(() => { isBgmPlaying = true; })
+                    .catch(err => console.log("Gagal memutar musik latar:", err));
+            } else {
+                bgm.pause();
+                isBgmPlaying = false;
+            }
+            
+            showToast(isSoundEnabled ? "🔊 Suara & Musik diaktifkan" : "🔇 Suara & Musik dimatikan");
+        }
+
+        // 3. CONFETTI EFFECT
+        const canvas = document.getElementById("confetti-canvas");
+        const ctx = canvas.getContext("2d");
+        let confettiArray = [];
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener("resize", resizeCanvas);
+        resizeCanvas();
+
+        class Confetti {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height - canvas.height;
+                this.size = Math.random() * 8 + 6;
+                this.speedY = Math.random() * 3 + 4;
+                this.speedX = Math.random() * 2 - 1;
+                this.color = `hsl(${Math.random() * 360}, 100%, 60%)`;
+                this.rotation = Math.random() * 360;
+                this.rotationSpeed = Math.random() * 4 - 2;
+            }
+            update() {
+                this.y += this.speedY;
+                this.x += this.speedX;
+                this.rotation += this.rotationSpeed;
+                if (this.y > canvas.height) {
+                    this.y = -20;
+                    this.x = Math.random() * canvas.width;
+                }
+            }
+            draw() {
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                ctx.rotate((this.rotation * Math.PI) / 180);
+                ctx.fillStyle = this.color;
+                ctx.fillRect(-this.size / 2, -this.size / 2, this.size, this.size);
+                ctx.restore();
+            }
+        }
+
+        function spawnConfetti(count = 100) {
+            confettiArray = [];
+            for (let i = 0; i < count; i++) {
+                confettiArray.push(new Confetti());
+            }
+        }
+
+        function animateConfetti() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            if (confettiArray.length > 0) {
+                confettiArray.forEach((c) => {
+                    c.update();
+                    c.draw();
+                });
+                // Perlahan kurangi partikel yang keluar layar
+                requestAnimationFrame(animateConfetti);
+            }
+        }
+
+        function triggerCelebrate() {
+            spawnConfetti(120);
+            animateConfetti();
+            setTimeout(() => {
+                confettiArray = []; // Hentikan animasi setelah beberapa detik
+            }, 4000);
+        }
+
+        // 4. GAME STATE MANAGEMENT
+        let gameState = {
+            mode: 'solo', // 'solo' atau 'vs-bot'
+            playerName: "Bapak/Ibu Guru Hebat",
+            playerAvatar: "👨‍🏫",
+            selectedCategoryIds: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+            botDifficulty: 'sedang', // 'mudah', 'sedang', 'sulit'
+            
+            // Variabel Kuis Berjalan
+            questions: [],
+            currentQuestionIdx: 0,
+            timer: 20,
+            timerMax: 20,
+            timerInterval: null,
+            playerScore: 0,
+            playerCorrectCount: 0,
+            streak: 0,
+            
+            // Bot State (Untuk VS Bot)
+            botScore: 0,
+            botAnswered: false,
+            botDecisionTime: 0,
+            botGuessCorrect: false,
+            
+            // Riwayat untuk ulasan akhir
+            history: [],
+            
+            // Penggunaan Bantuan
+            lifelinesUsed: {
+                fiftyFifty: false,
+                extraTime: false,
+                expert: false
+            }
+        };
+
+        // Simpan High Score ke LocalStorage
+        function initHighScore() {
+            const hs = localStorage.getItem('cerdas_cermat_high_score') || 0;
+            document.getElementById('global-high-score').innerText = hs;
+        }
+
+        function updateHighScore(score) {
+            const currentHS = parseInt(localStorage.getItem('cerdas_cermat_high_score') || 0);
+            if (score > currentHS) {
+                localStorage.setItem('cerdas_cermat_high_score', score);
+                document.getElementById('global-high-score').innerText = score;
+                showToast("🏆 Rekor Baru Tercipta!");
+            }
+        }
+
+        // Jalankan saat load
+        window.onload = function() {
+            initHighScore();
+            renderCategoryBadges();
+            renderCategoryCheckboxes();
+            initializeLeaderboard();
+            
+            // Cek apakah user sudah ter-login di browser sebelumnya
+            const savedName = localStorage.getItem('cc_playerName');
+            const savedAvatar = localStorage.getItem('cc_playerAvatar');
+            if (savedName) {
+                gameState.playerName = savedName;
+                gameState.playerAvatar = savedAvatar || "👨‍🏫";
+                applyPlayerProfileToUI();
+                goToScreen('welcome-screen');
+            } else {
+                goToScreen('login-screen');
+            }
+            
+            // Tambahkan event click ke seluruh layar untuk memicu autoplay musik di browser
+            document.body.addEventListener('click', function() {
+                startBGM();
+            }, { once: true });
+        };
+
+        // Render Lencana Kategori di Welcome Screen
+        function renderCategoryBadges() {
+            const container = document.getElementById('topic-badge-container');
+            container.innerHTML = CATEGORIES.map((cat, idx) => `
+                <div class="flex items-center gap-3 p-2.5 rounded-xl bg-slate-800/40 border border-slate-800 hover:border-indigo-500/20 transition duration-150">
+                    <span class="w-2 h-2 rounded-full bg-indigo-400"></span>
+                    <span class="text-xs font-semibold text-slate-300">${idx+1}. ${cat.name}</span>
+                </div>
+            `).join('');
+        }
+
+        // Render Checkbox Kategori di Setup Screen
+        function renderCategoryCheckboxes() {
+            const container = document.getElementById('topic-checkboxes');
+            container.innerHTML = CATEGORIES.map((cat) => `
+                <label class="flex items-center gap-3 p-2.5 rounded-xl bg-slate-900/60 border border-slate-800 hover:border-slate-700 cursor-pointer select-none text-xs">
+                    <input type="checkbox" value="${cat.id}" checked class="w-4 h-4 text-indigo-500 rounded border-slate-700 bg-slate-800 focus:ring-indigo-500" onchange="updateSelectedCategories()">
+                    <span class="text-slate-300 font-medium">${cat.name}</span>
+                </label>
+            `).join('');
+        }
+
+        function updateSelectedCategories() {
+            const checkboxes = document.querySelectorAll('#topic-checkboxes input[type="checkbox"]');
+            gameState.selectedCategoryIds = Array.from(checkboxes)
+                .filter(cb => cb.checked)
+                .map(cb => parseInt(cb.value));
+        }
+
+        function toggleAllCategories(checked) {
+            const checkboxes = document.querySelectorAll('#topic-checkboxes input[type="checkbox"]');
+            checkboxes.forEach(cb => cb.checked = checked);
+            updateSelectedCategories();
+            sounds.click();
+        }
+
+        // Navigasi Screen
+        function goToScreen(screenId) {
+            const screens = ['login-screen', 'welcome-screen', 'setup-screen', 'gameplay-screen', 'summary-screen', 'review-screen', 'leaderboard-screen'];
+            screens.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.classList.add('hidden');
+            });
+            document.getElementById(screenId).classList.remove('hidden');
+            
+            // Tambahkan focus header
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Tampilkan Toast Notifikasi Kustom
+        function showToast(message, type = "success") {
+            const toast = document.getElementById('toast');
+            const msgEl = document.getElementById('toast-msg');
+            const iconEl = document.getElementById('toast-icon');
+            
+            msgEl.innerText = message;
+            
+            if (type === "success") {
+                iconEl.className = "p-1 rounded-full bg-emerald-500/20 text-emerald-400";
+                iconEl.innerHTML = `<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>`;
+            } else {
+                iconEl.className = "p-1 rounded-full bg-amber-500/20 text-amber-400";
+                iconEl.innerHTML = `<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>`;
+            }
+
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            toast.classList.add('translate-y-0', 'opacity-100');
+
+            setTimeout(() => {
+                toast.classList.remove('translate-y-0', 'opacity-100');
+                toast.classList.add('translate-y-20', 'opacity-0');
+            }, 3000);
+        }
+
+        // 5. LOGIN ENGINE
+        function selectAvatar(emoji, element) {
+            sounds.click();
+            // Reset active classes
+            const options = document.querySelectorAll('.avatar-option');
+            options.forEach(opt => {
+                opt.classList.remove('border-indigo-500');
+                opt.classList.add('border-transparent');
+            });
+            // Apply active class
+            element.classList.remove('border-transparent');
+            element.classList.add('border-indigo-500');
+            gameState.playerAvatar = emoji;
+        }
+
+        function processLogin() {
+            const nameInput = document.getElementById('login-name-input').value.trim();
+            if (nameInput === "") {
+                sounds.wrong();
+                showToast("⚠️ Silakan ketik nama Anda terlebih dahulu!", "warning");
+                return;
+            }
+            sounds.click();
+            
+            gameState.playerName = nameInput;
+            localStorage.setItem('cc_playerName', nameInput);
+            localStorage.setItem('cc_playerAvatar', gameState.playerAvatar);
+            
+            applyPlayerProfileToUI();
+            startBGM();
+            
+            showToast(`👋 Selamat datang, ${nameInput}!`);
+            goToScreen('welcome-screen');
+        }
+
+        function logoutProfile() {
+            sounds.click();
+            localStorage.removeItem('cc_playerName');
+            localStorage.removeItem('cc_playerAvatar');
+            document.getElementById('login-name-input').value = "";
+            goToScreen('login-screen');
+        }
+
+        function applyPlayerProfileToUI() {
+            document.getElementById('welcome-player-display').innerText = gameState.playerName;
+            document.getElementById('welcome-avatar-display').innerText = gameState.playerAvatar;
+            
+            document.getElementById('setup-player-name-badge').innerText = gameState.playerName;
+            document.getElementById('setup-player-avatar-badge').innerText = gameState.playerAvatar;
+
+            document.getElementById('hud-player-name').innerText = gameState.playerName;
+            document.getElementById('player-avatar-letter').innerText = gameState.playerAvatar;
+        }
+
+        // Setup sebelum masuk ke permainan
+        function setupQuizMode(mode) {
+            sounds.click();
+            startBGM();
+            gameState.mode = mode;
+            
+            // Kondisikan UI Setup berdasarkan Mode
+            const setupTitle = document.getElementById('setup-title');
+            const botDifficultyContainer = document.getElementById('bot-difficulty-container');
+            const lifelinesContainer = document.getElementById('lifelines-container');
+
+            if (mode === 'solo') {
+                setupTitle.innerHTML = `⚙️ Pengaturan Kuis Mandiri`;
+                botDifficultyContainer.classList.add('hidden');
+                lifelinesContainer.classList.remove('hidden');
+            } else {
+                setupTitle.innerHTML = `⚔️ Pengaturan Kuis Lawan AI`;
+                botDifficultyContainer.classList.remove('hidden');
+                lifelinesContainer.classList.add('hidden'); // Bot mode tidak memakai bantuan personal
+            }
+
+            goToScreen('setup-screen');
+        }
+
+        function setBotDifficulty(diff) {
+            sounds.click();
+            gameState.botDifficulty = diff;
+            
+            const btnEasy = document.getElementById('btn-bot-easy');
+            const btnMedium = document.getElementById('btn-bot-medium');
+            const btnHard = document.getElementById('btn-bot-hard');
+
+            [btnEasy, btnMedium, btnHard].forEach(b => {
+                b.className = "px-4 py-3 rounded-xl font-bold border transition duration-200 text-center text-sm border-slate-700 bg-slate-800/40 text-slate-400 hover:bg-slate-700/50";
+            });
+
+            if (diff === 'mudah') {
+                btnEasy.className = "px-4 py-3 rounded-xl font-bold border transition duration-200 text-center text-sm border-emerald-500/50 bg-emerald-500/10 text-emerald-300";
+            } else if (diff === 'sedang') {
+                btnMedium.className = "px-4 py-3 rounded-xl font-bold border transition duration-200 text-center text-sm border-indigo-500/50 bg-indigo-500/10 text-indigo-300";
+            } else {
+                btnHard.className = "px-4 py-3 rounded-xl font-bold border transition duration-200 text-center text-sm border-pink-500/50 bg-pink-500/10 text-pink-300";
+            }
+        }
+
+        // Mulai Game Utama
+        function startGame() {
+            sounds.click();
+            startBGM();
+            
+            // Validasi Kategori
+            if (gameState.selectedCategoryIds.length === 0) {
+                showToast("⚠️ Pilih setidaknya satu cakupan materi!", "warning");
+                return;
+            }
+
+            // Memilih dan mengacak soal berdasarkan Kategori terpilih
+            const filteredQuestions = QUESTION_BANK.filter(q => gameState.selectedCategoryIds.includes(q.categoryId));
+            
+            if (filteredQuestions.length === 0) {
+                showToast("⚠️ Kategori bermasalah, silakan refresh halaman.", "warning");
+                return;
+            }
+
+            // Batasi maksimal 15 soal agar tidak jenuh, acak soalnya
+            const shuffled = [...filteredQuestions].sort(() => 0.5 - Math.random());
+            gameState.questions = shuffled.slice(0, 15); // Ambil maks 15 soal
+            
+            // Reset parameter kuis
+            gameState.currentQuestionIdx = 0;
+            gameState.playerScore = 0;
+            gameState.playerCorrectCount = 0;
+            gameState.streak = 0;
+            gameState.history = [];
+            gameState.botScore = 0;
+            gameState.lifelinesUsed = { fiftyFifty: false, extraTime: false, expert: false };
+
+            // Reset Bantuan Button UI
+            resetLifelineButtons();
+
+            // Set UI HUD untuk VS Bot
+            const hudBotContainer = document.getElementById('hud-bot-container');
+            const botActionBanner = document.getElementById('bot-action-banner');
+            if (gameState.mode === 'vs-bot') {
+                hudBotContainer.classList.remove('hidden');
+                botActionBanner.classList.remove('hidden');
+                document.getElementById('hud-bot-score').innerText = "0";
+                
+                let botAvatarName = "Guru Pintar AI";
+                if (gameState.botDifficulty === 'mudah') botAvatarName = "Bot Pemula AI";
+                if (gameState.botDifficulty === 'sulit') botAvatarName = "Pakar Utama AI";
+                document.getElementById('hud-bot-name').innerText = botAvatarName;
+            } else {
+                hudBotContainer.classList.add('hidden');
+                botActionBanner.classList.add('hidden');
+            }
+
+            document.getElementById('hud-player-score').innerText = "0";
+            document.getElementById('hud-streak').innerText = "Beruntun: 0🔥";
+
+            // Buka gameplay screen
+            goToScreen('gameplay-screen');
+            loadQuestion();
+        }
+
+        // Muat Soal Saat Ini
+        function loadQuestion() {
+            // Hentikan timer yang sedang berjalan
+            clearInterval(gameState.timerInterval);
+            
+            const currentQ = gameState.questions[gameState.currentQuestionIdx];
+            
+            // Update HUD Progress
+            document.getElementById('hud-progress').innerText = `${gameState.currentQuestionIdx + 1} / ${gameState.questions.length}`;
+            const progressPercent = ((gameState.currentQuestionIdx + 1) / gameState.questions.length) * 100;
+            document.getElementById('progress-bar-fill').style.width = `${progressPercent}%`;
+
+            // Setup Kategori & Teks Soal
+            document.getElementById('quiz-question-category').innerText = currentQ.categoryName;
+            document.getElementById('quiz-question-text').innerText = currentQ.question;
+
+            // Sembunyikan boks penjelasan
+            document.getElementById('explanation-box').classList.add('hidden');
+
+            // Render opsi jawaban
+            const optionsContainer = document.getElementById('option-buttons-container');
+            optionsContainer.innerHTML = '';
+            
+            currentQ.options.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                btn.className = "option-btn px-5 py-4 text-left rounded-xl bg-slate-800/80 hover:bg-indigo-950/40 border border-slate-700/60 hover:border-indigo-500/50 font-medium text-xs md:text-sm text-slate-200 transition duration-150 relative overflow-hidden focus:outline-none flex items-center justify-between";
+                btn.innerHTML = `
+                    <div class="flex items-center gap-3">
+                        <span class="w-6 h-6 rounded-lg bg-slate-900 flex items-center justify-center text-xs font-bold text-slate-400 group-hover:text-indigo-400 transition-colors uppercase">${String.fromCharCode(97 + idx)}</span>
+                        <span>${opt}</span>
+                    </div>
+                `;
+                btn.onclick = () => selectAnswer(idx);
+                optionsContainer.appendChild(btn);
+            });
+
+            // Mulai Timer Baru
+            gameState.timer = 20;
+            gameState.timerMax = 20;
+            updateTimerUI();
+            
+            gameState.timerInterval = setInterval(() => {
+                gameState.timer--;
+                updateTimerUI();
+                
+                if (gameState.timer <= 5 && gameState.timer > 0) {
+                    sounds.tick();
+                }
+                
+                if (gameState.timer <= 0) {
+                    clearInterval(gameState.timerInterval);
+                    handleTimeOut();
+                }
+            }, 1000);
+
+            // Jika mode VS Bot, kalkulasi respon bot
+            if (gameState.mode === 'vs-bot') {
+                triggerBotDecision(currentQ);
+            }
+        }
+
+        function updateTimerUI() {
+            document.getElementById('timer-text').innerText = `${gameState.timer}s`;
+            const percent = (gameState.timer / gameState.timerMax) * 100;
+            const bar = document.getElementById('timer-bar-fill');
+            bar.style.width = `${percent}%`;
+
+            // Ubah warna timer ketika kritis
+            if (gameState.timer <= 5) {
+                bar.className = "h-full bg-gradient-to-r from-red-500 to-pink-500 transition-all duration-100 ease-linear";
+                document.getElementById('timer-text').className = "text-lg font-black text-pink-500 font-title w-8 animate-pulse";
+            } else {
+                bar.className = "h-full bg-gradient-to-r from-amber-400 to-orange-500 transition-all duration-100 ease-linear";
+                document.getElementById('timer-text').className = "text-lg font-black text-amber-400 font-title w-8";
+            }
+        }
+
+        // Penanganan jika Waktu Habis sebelum menjawab
+        function handleTimeOut() {
+            sounds.wrong();
+            disableOptionButtons();
+            
+            const currentQ = gameState.questions[gameState.currentQuestionIdx];
+            highlightCorrectAnswer(currentQ.correctIndex);
+
+            // Simpan Riwayat
+            gameState.history.push({
+                question: currentQ.question,
+                category: currentQ.categoryName,
+                correctAnswer: currentQ.options[currentQ.correctIndex],
+                playerAnswer: "Waktu Habis ⏱️",
+                isCorrect: false
+            });
+
+            gameState.streak = 0;
+            document.getElementById('hud-streak').innerText = `Beruntun: 0🔥`;
+
+            // Tunjukkan Penjelasan
+            showExplanation(currentQ.explanation);
+        }
+
+        // Aksi saat pemain memilih jawaban
+        function selectAnswer(selectedIndex) {
+            // Hentikan timer kuis & bot
+            clearInterval(gameState.timerInterval);
+            disableOptionButtons();
+
+            const currentQ = gameState.questions[gameState.currentQuestionIdx];
+            const isCorrect = selectedIndex === currentQ.correctIndex;
+
+            const optionBtns = document.querySelectorAll('.option-btn');
+
+            // Hitung skor yang didapat berdasarkan sisa waktu (speed bonus)
+            let pointsEarned = 0;
+
+            if (isCorrect) {
+                sounds.correct();
+                optionBtns[selectedIndex].classList.remove('bg-slate-800/80', 'border-slate-700/60');
+                optionBtns[selectedIndex].classList.add('bg-emerald-500/20', 'border-emerald-500', 'text-emerald-300', 'animate-pop');
+                
+                // Animasi centang
+                optionBtns[selectedIndex].innerHTML += `<span class="text-emerald-400 font-bold text-lg">✓</span>`;
+
+                gameState.playerCorrectCount++;
+                gameState.streak++;
+
+                // Formula Skor: Base 100 + Sisa Waktu * 10 + Bonus Streak
+                const speedBonus = gameState.timer * 5;
+                const streakBonus = Math.min(gameState.streak * 20, 100);
+                pointsEarned = 100 + speedBonus + streakBonus;
+                
+                gameState.playerScore += pointsEarned;
+                document.getElementById('hud-player-score').innerText = gameState.playerScore;
+                document.getElementById('hud-streak').innerText = `Beruntun: ${gameState.streak}🔥`;
+                
+                // Efek partikel konfeti kecil
+                triggerCelebrate();
+            } else {
+                sounds.wrong();
+                optionBtns[selectedIndex].classList.remove('bg-slate-800/80', 'border-slate-700/60');
+                optionBtns[selectedIndex].classList.add('bg-pink-500/20', 'border-pink-500', 'text-pink-300', 'animate-shake');
+                
+                // Tanda silang
+                optionBtns[selectedIndex].innerHTML += `<span class="text-pink-400 font-bold text-lg">✗</span>`;
+
+                // Highlight jawaban yang benar
+                highlightCorrectAnswer(currentQ.correctIndex);
+                
+                gameState.streak = 0;
+                document.getElementById('hud-streak').innerText = `Beruntun: 0🔥`;
+            }
+
+            // Simpan Riwayat
+            gameState.history.push({
+                question: currentQ.question,
+                category: currentQ.categoryName,
+                correctAnswer: currentQ.options[currentQ.correctIndex],
+                playerAnswer: currentQ.options[selectedIndex],
+                isCorrect: isCorrect
+            });
+
+            // Sinkronisasi dengan jawaban bot
+            if (gameState.mode === 'vs-bot') {
+                processBotScore(isCorrect);
+            }
+
+            // Tunjukkan penjelasan edukasi kuis
+            showExplanation(currentQ.explanation);
+        }
+
+        // Tunjukkan pilihan yang benar secara visual
+        function highlightCorrectAnswer(correctIdx) {
+            const optionBtns = document.querySelectorAll('.option-btn');
+            if (optionBtns[correctIdx]) {
+                optionBtns[correctIdx].classList.remove('bg-slate-800/80', 'border-slate-700/60');
+                optionBtns[correctIdx].classList.add('bg-emerald-500/20', 'border-emerald-500', 'text-emerald-300');
+                optionBtns[correctIdx].innerHTML += `<span class="text-emerald-400 text-xs font-bold">Jawaban Benar</span>`;
+            }
+        }
+
+        function disableOptionButtons() {
+            const optionBtns = document.querySelectorAll('.option-btn');
+            optionBtns.forEach(btn => {
+                btn.disabled = true;
+                btn.classList.add('opacity-60', 'cursor-not-allowed');
+            });
+        }
+
+        // Tampilkan Penjelasan Konseptual
+        function showExplanation(text) {
+            const explanationBox = document.getElementById('explanation-box');
+            document.getElementById('explanation-text').innerText = text;
+            explanationBox.classList.remove('hidden');
+        }
+
+        // Lanjut ke soal berikutnya atau selesaikan kuis
+        function nextQuestion() {
+            sounds.click();
+            gameState.currentQuestionIdx++;
+
+            if (gameState.currentQuestionIdx < gameState.questions.length) {
+                loadQuestion();
+            } else {
+                finishQuiz();
+            }
+        }
+
+        // 5. BOT (AI) ENGINE SIMULATION
+        function triggerBotDecision(question) {
+            // Tentukan probabilitas kebenaran bot berdasarkan difficulty
+            let correctProbability = 0.5; // Sedang
+            let minTime = 4; // Detik tercepat menjawab
+            let maxTime = 12; // Detik terlama menjawab
+
+            if (gameState.botDifficulty === 'mudah') {
+                correctProbability = 0.35;
+                minTime = 6;
+                maxTime = 15;
+            } else if (gameState.botDifficulty === 'sulit') {
+                correctProbability = 0.85;
+                minTime = 2;
+                maxTime = 8;
+            }
+
+            // Kalkulasi apakah jawaban bot benar
+            gameState.botGuessCorrect = Math.random() < correctProbability;
+            
+            // Tentukan waktu berpikir bot
+            gameState.botDecisionTime = Math.floor(Math.random() * (maxTime - minTime + 1)) + minTime;
+            gameState.botAnswered = false;
+
+            // UI Animasi Berpikir
+            document.getElementById('hud-bot-status').innerText = "Berpikir... 🤔";
+            document.getElementById('bot-live-status-badge').innerText = "Berpikir";
+            document.getElementById('bot-live-status-badge').className = "px-2 py-0.5 text-[10px] bg-purple-500/20 text-purple-200 rounded";
+        }
+
+        function processBotScore(playerFinished) {
+            // Kalkulasi skor bot saat pemain telah menjawab atau saat sisa waktu habis
+            // Jika bot menjawab lebih cepat daripada waktu tersisa saat pemain menyentuh pilihan:
+            const elapsed = gameState.timerMax - gameState.timer;
+            
+            let botStateMsg = "";
+            let botAddScore = 0;
+
+            if (elapsed >= gameState.botDecisionTime) {
+                // Bot selesai berpikir sebelum player mengklik
+                if (gameState.botGuessCorrect) {
+                    // Bot Benar
+                    botAddScore = 100 + (gameState.timerMax - gameState.botDecisionTime) * 5;
+                    gameState.botScore += botAddScore;
+                    botStateMsg = `Benar (+${botAddScore}) 🟢`;
+                } else {
+                    botStateMsg = "Salah 🔴";
+                }
+            } else {
+                // Bot masih berpikir tapi dipaksa menjawab karena player menyudahi giliran
+                // Beri penalti keterlambatan
+                if (gameState.botGuessCorrect && Math.random() < 0.7) {
+                    botAddScore = 100; // Skor minimal tanpa bonus waktu
+                    gameState.botScore += botAddScore;
+                    botStateMsg = `Benar Lambat (+${botAddScore}) 🟡`;
+                } else {
+                    botStateMsg = "Gagal Merespon ❌";
+                }
+            }
+
+            // Update UI Bot
+            document.getElementById('hud-bot-score').innerText = gameState.botScore;
+            document.getElementById('hud-bot-status').innerText = botStateMsg;
+            document.getElementById('bot-live-status-badge').innerText = "Selesai";
+            document.getElementById('bot-live-status-badge').className = "px-2 py-0.5 text-[10px] bg-emerald-500/20 text-emerald-200 rounded";
+        }
+
+        // 6. PERSONAL LIFELINES ENGINE
+        function resetLifelineButtons() {
+            const btnFifty = document.getElementById('lifeline-fifty');
+            const btnTime = document.getElementById('lifeline-time');
+            const btnExpert = document.getElementById('lifeline-expert');
+
+            [btnFifty, btnTime, btnExpert].forEach(btn => {
+                btn.disabled = false;
+                btn.className = "flex items-center justify-between p-2.5 rounded-lg bg-slate-800/80 border border-slate-700/60 hover:bg-slate-700/60 transition duration-150 group text-left";
+            });
+        }
+
+        // Bantuan 50:50 - Hilangkan 2 jawaban salah
+        function useFiftyFifty() {
+            if (gameState.lifelinesUsed.fiftyFifty) return;
+            sounds.click();
+            
+            gameState.lifelinesUsed.fiftyFifty = true;
+            
+            const btnFifty = document.getElementById('lifeline-fifty');
+            btnFifty.disabled = true;
+            btnFifty.className = "flex items-center justify-between p-2.5 rounded-lg bg-slate-900 border border-slate-800 text-slate-600 cursor-not-allowed text-left opacity-50";
+
+            const currentQ = gameState.questions[gameState.currentQuestionIdx];
+            const correctIdx = currentQ.correctIndex;
+
+            // Cari opsi indeks yang salah
+            let incorrectIndices = [];
+            currentQ.options.forEach((_, idx) => {
+                if (idx !== correctIdx) {
+                    incorrectIndices.push(idx);
+                }
+            });
+
+            // Acak & ambil 2 indeks salah untuk dihilangkan
+            incorrectIndices.sort(() => 0.5 - Math.random());
+            const toDisable = incorrectIndices.slice(0, 2);
+
+            const optionBtns = document.querySelectorAll('.option-btn');
+            toDisable.forEach(idx => {
+                if (optionBtns[idx]) {
+                    optionBtns[idx].disabled = true;
+                    optionBtns[idx].classList.add('opacity-20', 'cursor-not-allowed');
+                }
+            });
+
+            showToast("🪄 2 Pilihan salah dieliminasi!");
+        }
+
+        // Bantuan Tambah Waktu (+15 detik)
+        function useExtraTime() {
+            if (gameState.lifelinesUsed.extraTime) return;
+            sounds.extraTime();
+
+            gameState.lifelinesUsed.extraTime = true;
+            
+            const btnTime = document.getElementById('lifeline-time');
+            btnTime.disabled = true;
+            btnTime.className = "flex items-center justify-between p-2.5 rounded-lg bg-slate-900 border border-slate-800 text-slate-600 cursor-not-allowed text-left opacity-50";
+
+            gameState.timer += 15;
+            if (gameState.timer > 35) gameState.timer = 35; // Batasan maks baru
+            gameState.timerMax = Math.max(gameState.timerMax, gameState.timer);
+            updateTimerUI();
+
+            showToast("⏱️ Ekstra waktu 15 detik ditambahkan!");
+        }
+
+        // Bantuan Pendapat Ahli
+        function useExpert() {
+            if (gameState.lifelinesUsed.expert) return;
+            sounds.click();
+
+            gameState.lifelinesUsed.expert = true;
+            
+            const btnExpert = document.getElementById('lifeline-expert');
+            btnExpert.disabled = true;
+            btnExpert.className = "flex items-center justify-between p-2.5 rounded-lg bg-slate-900 border border-slate-800 text-slate-600 cursor-not-allowed text-left opacity-50";
+
+            const currentQ = gameState.questions[gameState.currentQuestionIdx];
+            const correctIdx = currentQ.correctIndex;
+
+            // Buat kalkulasi probabilitas seolah-olah ahli berpendapat benar
+            let data = [5, 5, 5, 5];
+            data[correctIdx] = 70; // Prioritas utama untuk jawaban benar
+            
+            // Sisa 30% didistribusikan acak ke opsi lain
+            let remaining = 30;
+            currentQ.options.forEach((_, idx) => {
+                if (idx !== correctIdx) {
+                    const share = Math.floor(Math.random() * remaining);
+                    data[idx] += share;
+                    remaining -= share;
+                }
+            });
+            data[correctIdx] += remaining; // Sisa ditambahkan ke jawaban benar
+
+            // Render isi modal rekomendasi
+            const container = document.getElementById('expert-predictions-container');
+            container.innerHTML = '';
+
+            currentQ.options.forEach((opt, idx) => {
+                const percentage = data[idx];
+                container.innerHTML += `
+                    <div class="space-y-1">
+                        <div class="flex justify-between text-[11px] font-bold text-slate-300">
+                            <span>Opsi ${String.fromCharCode(65 + idx)}: ${opt.substring(0, 30)}${opt.length > 30 ? '...' : ''}</span>
+                            <span class="text-indigo-400">${percentage}%</span>
+                        </div>
+                        <div class="w-full bg-slate-950 rounded-full h-1.5 overflow-hidden">
+                            <div class="bg-indigo-500 h-full" style="width: ${percentage}%"></div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            // Tampilkan modal
+            document.getElementById('expert-modal').classList.remove('hidden');
+        }
+
+        function closeExpertModal() {
+            sounds.click();
+            document.getElementById('expert-modal').classList.add('hidden');
+        }
+
+        // 7. HASIL AKHIR & ANALISIS
+        function finishQuiz() {
+            sounds.win();
+            triggerCelebrate();
+
+            // Atur Skor Tertinggi
+            updateHighScore(gameState.playerScore);
+
+            // Tambahkan data ke Leaderboard
+            addRecordToLeaderboard({
+                name: gameState.playerName,
+                avatar: gameState.playerAvatar,
+                score: gameState.playerScore,
+                correct: gameState.playerCorrectCount,
+                total: gameState.questions.length,
+                mode: gameState.mode === 'vs-bot' ? `Lawan AI (${gameState.botDifficulty})` : 'Mandiri'
+            });
+
+            // Set Data di Layar Ringkasan
+            document.getElementById('summary-player-name').innerText = `${gameState.playerAvatar} ${gameState.playerName}`;
+            document.getElementById('summary-total-score').innerText = gameState.playerScore;
+            
+            const totalQ = gameState.questions.length;
+            document.getElementById('summary-correct-count').innerText = gameState.playerCorrectCount;
+            document.getElementById('summary-wrong-count').innerText = totalQ - gameState.playerCorrectCount;
+
+            // Kondisi status teks kuis
+            const percent = (gameState.playerCorrectCount / totalQ) * 100;
+            let statusText = "Pendidik Berbakat!";
+            if (percent === 100) statusText = "Pendidik Sempurna! (Supernova)";
+            else if (percent >= 80) statusText = "Kompetensi Utama Sangat Baik!";
+            else if (percent >= 60) statusText = "Lulus Standar Kompetensi!";
+            else statusText = "Butuh Penguatan Konseptual";
+            
+            document.getElementById('finish-status').innerText = statusText;
+
+            // Kalkulasi kekuatan materi per kategori
+            renderStrengthAnalysis();
+
+            goToScreen('summary-screen');
+        }
+
+        function renderStrengthAnalysis() {
+            // Hitung statistik per kategori
+            let categoryStats = {};
+            
+            // Inisialisasi semua kategori yang diuji
+            gameState.selectedCategoryIds.forEach(catId => {
+                const catInfo = CATEGORIES.find(c => c.id === catId);
+                categoryStats[catId] = {
+                    name: catInfo.name,
+                    correct: 0,
+                    total: 0
+                };
+            });
+
+            // Akumulasikan dari riwayat permainan
+            gameState.history.forEach(item => {
+                // Cari kategori ID
+                const matchedQ = QUESTION_BANK.find(q => q.question === item.question);
+                if (matchedQ && categoryStats[matchedQ.categoryId]) {
+                    categoryStats[matchedQ.categoryId].total++;
+                    if (item.isCorrect) {
+                        categoryStats[matchedQ.categoryId].correct++;
+                    }
+                }
+            });
+
+            // Render Bar Kelemahan/Kekuatan
+            const barContainer = document.getElementById('stats-bars-container');
+            barContainer.innerHTML = '';
+
+            let lowestCategoryName = "Tidak terdeteksi";
+            let lowestScore = 101;
+
+            Object.keys(categoryStats).forEach(key => {
+                const stat = categoryStats[key];
+                if (stat.total === 0) return; // Lewati jika tidak ada soal terkait kategori ini
+
+                const scorePercent = Math.round((stat.correct / stat.total) * 100);
+                
+                // Cari kategori dengan skor terendah untuk rekomendasi dinamis
+                if (scorePercent < lowestScore) {
+                    lowestScore = scorePercent;
+                    lowestCategoryName = stat.name;
+                }
+
+                // Warna bar berdasarkan capaian
+                let barColor = "bg-gradient-to-r from-red-500 to-orange-500";
+                if (scorePercent >= 80) barColor = "bg-gradient-to-r from-emerald-500 to-teal-500";
+                else if (scorePercent >= 50) barColor = "bg-gradient-to-r from-indigo-500 to-purple-500";
+
+                barContainer.innerHTML += `
+                    <div class="space-y-1">
+                        <div class="flex justify-between items-center text-xs text-slate-300">
+                            <span class="font-semibold truncate max-w-[250px] md:max-w-[400px]">${stat.name}</span>
+                            <span class="font-bold">${scorePercent}% <span class="text-slate-500">(${stat.correct}/${stat.total})</span></span>
+                        </div>
+                        <div class="w-full h-2.5 bg-slate-900/80 rounded-full overflow-hidden border border-slate-800">
+                            <div class="${barColor} h-full transition-all duration-1000" style="width: ${scorePercent}%"></div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            // Formulasi Rekomendasi Pintar Dinamis
+            let recommendationStr = "";
+            if (lowestScore === 100) {
+                recommendationStr = `Luar biasa, Bapak/Ibu ${gameState.playerName}! Penguasaan Anda di seluruh materi kompetensi yang diujikan mencapai poin sempurna. Pertahankan kepemimpinan pembelajaran ini dan jadilah mentor inspiratif bagi rekan guru sejawat lainnya!`;
+            } else if (lowestScore < 50) {
+                recommendationStr = `Berdasarkan statistik kuis Anda, disarankan untuk memperdalam pemahaman literatur dan pelatihan intensif pada materi <strong>${lowestCategoryName}</strong> (Skor: ${lowestScore}%). Cobalah membaca modul referensi resmi Kemendikbudristek untuk memperkokoh fondasi teori dasar Anda.`;
+            } else {
+                recommendationStr = `Kemampuan kompetensi Anda tergolong stabil dan seimbang. Upayakan penguatan berkala khususnya di rumpun materi <strong>${lowestCategoryName}</strong> agar seluruh pilar kompetensi Anda mencapai predikat istimewa di atas 90%.`;
+            }
+
+            document.getElementById('smart-recommendation-text').innerHTML = recommendationStr;
+        }
+
+        // Tampilkan Ulasan Detail Soal di Bawah Layar Ringkasan
+        let isReviewVisible = false;
+        function toggleDetailedReview() {
+            sounds.click();
+            isReviewVisible = !isReviewVisible;
+            
+            const reviewScreen = document.getElementById('review-screen');
+            const itemsContainer = document.getElementById('review-items-container');
+
+            if (isReviewVisible) {
+                reviewScreen.classList.remove('hidden');
+                itemsContainer.innerHTML = gameState.history.map((item, idx) => `
+                    <div class="p-4 rounded-xl ${item.isCorrect ? 'bg-emerald-950/10 border border-emerald-500/20' : 'bg-red-950/10 border border-red-500/20'} space-y-2">
+                        <div class="flex justify-between items-start gap-2">
+                            <span class="px-2 py-0.5 text-[10px] rounded font-bold uppercase ${item.isCorrect ? 'bg-emerald-500/20 text-emerald-300' : 'bg-red-500/20 text-red-300'}">
+                                ${item.isCorrect ? 'Benar' : 'Salah'}
+                            </span>
+                            <span class="text-[10px] text-slate-400 font-semibold">${item.category}</span>
+                        </div>
+                        <p class="text-xs md:text-sm font-bold text-slate-100">${idx+1}. ${item.question}</p>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1 text-xs">
+                            <div class="p-2 rounded bg-slate-900/60 border border-slate-800">
+                                <span class="block text-slate-500 font-semibold">Jawaban Anda:</span>
+                                <span class="${item.isCorrect ? 'text-emerald-400' : 'text-red-400'} font-medium">${item.playerAnswer}</span>
+                            </div>
+                            <div class="p-2 rounded bg-slate-900/60 border border-slate-800">
+                                <span class="block text-slate-500 font-semibold">Jawaban Benar:</span>
+                                <span class="text-emerald-400 font-medium">${item.correctAnswer}</span>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+                
+                // Scroll perlahan ke bawah
+                setTimeout(() => {
+                    reviewScreen.scrollIntoView({ behavior: 'smooth' });
+                }, 100);
+            } else {
+                reviewScreen.classList.add('hidden');
+            }
+        }
+
+        // 8. LEADERBOARD SYSTEM ENGINE
+        const MOCK_LEADERBOARD = [
+            { name: "Prof. Dr. Herman S.", avatar: "🎓", score: 2450, correct: 15, total: 15, mode: "Lawan AI (sulit)" },
+            { name: "Ibu Sri Rahayu, M.Pd.", avatar: "👩‍🏫", score: 2120, correct: 14, total: 15, mode: "Lawan AI (sedang)" },
+            { name: "Pak Budi Utomo", avatar: "👨‍🏫", score: 1850, correct: 13, total: 15, mode: "Mandiri" },
+            { name: "Ki Hajar Muda", avatar: "🧠", score: 1540, correct: 11, total: 15, mode: "Mandiri" },
+            { name: "Dewi Sartika, S.Pd.", avatar: "🌟", score: 1290, correct: 10, total: 15, mode: "Lawan AI (mudah)" }
+        ];
+
+        function initializeLeaderboard() {
+            const leaderboard = localStorage.getItem('cerdas_cermat_leaderboard');
+            if (!leaderboard) {
+                // Gunakan mock data di awal agar tidak kosong melompong
+                localStorage.setItem('cerdas_cermat_leaderboard', JSON.stringify(MOCK_LEADERBOARD));
+            }
+        }
+
+        function getLeaderboardData() {
+            const leaderboard = localStorage.getItem('cerdas_cermat_leaderboard');
+            return leaderboard ? JSON.parse(leaderboard) : [];
+        }
+
+        function addRecordToLeaderboard(record) {
+            let leaderboard = getLeaderboardData();
+            leaderboard.push(record);
+            
+            // Urutkan berdasarkan skor tertinggi (descending)
+            leaderboard.sort((a, b) => b.score - a.score);
+            
+            // Batasi hanya menyimpan top 10 terbaik
+            leaderboard = leaderboard.slice(0, 10);
+            
+            localStorage.setItem('cerdas_cermat_leaderboard', JSON.stringify(leaderboard));
+        }
+
+        function renderLeaderboardTable() {
+            const leaderboard = getLeaderboardData();
+            const tbody = document.getElementById('leaderboard-table-body');
+            tbody.innerHTML = '';
+
+            if (leaderboard.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="5" class="py-8 text-center text-slate-500 font-medium text-xs">
+                            Belum ada skor terekam. Jadilah yang pertama masuk peringkat!
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            leaderboard.forEach((item, index) => {
+                let rankDisplay = index + 1;
+                // Format ranking icon untuk top 3
+                if (index === 0) rankDisplay = "🥇";
+                else if (index === 1) rankDisplay = "🥈";
+                else if (index === 2) rankDisplay = "🥉";
+
+                // Highlight profil user aktif
+                const isCurrentUser = (item.name === gameState.playerName && item.avatar === gameState.playerAvatar);
+                const bgRowClass = isCurrentUser ? "bg-indigo-500/10 font-bold border-l-2 border-indigo-500" : "hover:bg-slate-900/40";
+
+                tbody.innerHTML += `
+                    <tr class="${bgRowClass} transition-colors">
+                        <td class="py-3 px-4 text-center text-base">${rankDisplay}</td>
+                        <td class="py-3 px-4 flex items-center gap-2.5">
+                            <span class="text-lg">${item.avatar || '👨‍🏫'}</span>
+                            <span class="truncate max-w-[200px] text-slate-100" title="${item.name}">${item.name}</span>
+                        </td>
+                        <td class="py-3 px-4 text-center text-xs text-slate-400">${item.mode || 'Mandiri'}</td>
+                        <td class="py-3 px-4 text-center text-xs text-emerald-400">${item.correct} / ${item.total}</td>
+                        <td class="py-3 px-4 text-right text-indigo-300 font-extrabold">${item.score}</td>
+                    </tr>
+                `;
+            });
+        }
+
+        function showLeaderboardScreen() {
+            sounds.click();
+            renderLeaderboardTable();
+            goToScreen('leaderboard-screen');
+        }
+
+        // Reset leaderboard
+        function resetLeaderboardData() {
+            sounds.click();
+            // Custom warning dialog non-alert
+            const confirmation = confirm("Apakah Anda yakin ingin mengatur ulang papan peringkat ke kondisi awal?");
+            if (confirmation) {
+                localStorage.setItem('cerdas_cermat_leaderboard', JSON.stringify(MOCK_LEADERBOARD));
+                renderLeaderboardTable();
+                showToast("🔄 Papan peringkat berhasil diatur ulang!");
+            }
+        }
+    </script>
+</body>
+</html>
