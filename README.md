@@ -1,0 +1,2 @@
+# gimcerdascermatnya
+gim cerdas cermat
